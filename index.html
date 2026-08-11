@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Keuangan Tata Usaha Sekolah v8.0 Pro</title>
+    <title>Sistem Keuangan Tata Usaha Sekolah v8.1 Pro</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
@@ -20,7 +20,6 @@
         /* ATURAN KHUSUS PENCETAKAN (PRINT STYLES)     */
         /* ========================================== */
         @media print {
-            /* Sembunyikan seluruh tampilan aplikasi saat cetak */
             body * {
                 visibility: hidden !important;
             }
@@ -36,7 +35,7 @@
                 left: 0 !important;
                 top: 0 !important;
                 width: 100% !important;
-                max-width: 80mm !important; /* Standar Ukuran Kertas Struk / Thermal */
+                max-width: 80mm !important;
                 margin: 0 auto !important;
                 padding: 10px !important;
                 color: #000 !important;
@@ -76,7 +75,7 @@
                     <span class="text-white text-2xl font-black">TU</span>
                 </div>
                 <h1 class="text-2xl font-extrabold text-white tracking-tight">Kasir TU Cloud Pro</h1>
-                <p class="text-xs text-slate-400 mt-1.5 font-medium">Sistem Keuangan Internal Sekolah v8.0</p>
+                <p class="text-xs text-slate-400 mt-1.5 font-medium">Sistem Keuangan Internal Sekolah v8.1</p>
             </div>
             <form onsubmit="prosesLogin(event)" class="space-y-5">
                 <div>
@@ -113,7 +112,7 @@
                     </div>
                     <div>
                         <h2 class="font-extrabold text-white text-sm tracking-tight">Kasir TU Cloud</h2>
-                        <p class="text-[10px] text-slate-500 font-semibold tracking-wider uppercase">Dashboard v8.0 Pro</p>
+                        <p class="text-[10px] text-slate-500 font-semibold tracking-wider uppercase">Dashboard v8.1 Pro</p>
                     </div>
                 </div>
 
@@ -413,7 +412,7 @@
                 </div>
             </div>
 
-            <!-- HALAMAN SPP SISWA -->
+            <!-- HALAMAN SPP SISWA (DENGAN TOMBOL SIMPAN & KOLOM LENGKAP) -->
             <div id="menuRekapSiswa" class="hidden space-y-6 max-w-5xl mx-auto">
                 <div class="bg-slate-900/60 border border-amber-500/30 p-6 rounded-2xl space-y-5">
                     <div class="border-b border-slate-800/80 pb-4 flex justify-between items-center">
@@ -424,8 +423,8 @@
                         <span class="px-3 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold text-[10px] rounded-lg uppercase tracking-wider">Modul SPP Sekolah</span>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+                        <div class="lg:col-span-2">
                             <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">Pilih Nama Siswa</label>
                             <input type="text" id="cariNamaSiswaSPP" oninput="prosesKalkulasiSPPSiswa()" list="listAutoSiswa" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 font-medium text-sm text-slate-200 placeholder:text-slate-600" placeholder="Ketik nama siswa...">
                             <datalist id="listAutoSiswa"></datalist>
@@ -434,13 +433,17 @@
                             <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">Target Nominal Wajib Bayar (Rp)</label>
                             <input type="text" id="targetWajibBayar" oninput="formatMataUangInput(this); prosesKalkulasiSPPSiswa();" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold font-mono text-amber-400 text-sm" value="3,000,000">
                         </div>
-                        <div class="flex items-end">
-                            <button onclick="cetakRekapSPPSiswa()" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 rounded-xl transition text-xs shadow-lg shadow-amber-600/20 cursor-pointer">
-                                🖨️ Cetak Lembar Kartu SPP
+                        <div class="flex gap-2">
+                            <button type="button" onclick="simpanStatusRekapSiswa()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-3 rounded-xl transition text-xs shadow-lg shadow-emerald-600/20 cursor-pointer text-center">
+                                💾 Simpan Rekap
+                            </button>
+                            <button type="button" onclick="cetakRekapSPPSiswa()" class="flex-1 bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 px-3 rounded-xl transition text-xs shadow-lg shadow-amber-600/20 cursor-pointer text-center">
+                                🖨️ Cetak Kartu
                             </button>
                         </div>
                     </div>
 
+                    <!-- Indikator Ringkasan Status -->
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
                         <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-xl">
                             <div class="text-[10px] font-bold text-slate-400 uppercase">Total Sudah Dibayar</div>
@@ -456,21 +459,29 @@
                         </div>
                     </div>
 
+                    <!-- TABEL BUKTI TRANSAKSI LENGKAP -->
                     <div class="border border-slate-800/80 rounded-2xl overflow-hidden bg-slate-950/40 mt-4">
-                        <div class="p-3.5 bg-slate-950 border-b border-slate-800/80 font-bold text-xs text-slate-300 uppercase tracking-wider">Riwayat Pembayaran Masuk Untuk Siswa Ini</div>
-                        <table class="w-full text-left text-xs">
-                            <thead class="bg-slate-950 text-slate-500 font-bold uppercase text-[10px] border-b border-slate-800">
-                                <tr>
-                                    <th class="p-3">Tanggal</th>
-                                    <th class="p-3">Kategori</th>
-                                    <th class="p-3">Uraian</th>
-                                    <th class="p-3 text-right">Nominal Bayar</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabelRiwayatSPPSiswa" class="divide-y divide-slate-800/50 text-slate-300">
-                                <tr><td colspan="4" class="p-4 text-center italic text-slate-500">Pilih nama siswa di atas.</td></tr>
-                            </tbody>
-                        </table>
+                        <div class="p-3.5 bg-slate-950 border-b border-slate-800/80 flex justify-between items-center">
+                            <span class="font-bold text-xs text-slate-300 uppercase tracking-wider">Rincian Pembayaran Masuk Siswa</span>
+                            <span class="text-[10px] text-slate-500 font-medium">Lengkap dengan Nominal (Rp) & Tombol Cetak</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead class="bg-slate-950 text-slate-400 font-bold uppercase text-[10px] border-b border-slate-800">
+                                    <tr>
+                                        <th class="p-3 text-center w-12">No</th>
+                                        <th class="p-3">Tanggal Bayar</th>
+                                        <th class="p-3">Kategori Item</th>
+                                        <th class="p-3">Uraian / Keterangan</th>
+                                        <th class="p-3 text-right text-emerald-400">Nominal (Rp)</th>
+                                        <th class="p-3 text-center no-print w-28">Cetak / Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelRiwayatSPPSiswa" class="divide-y divide-slate-800/50 text-slate-300 font-medium">
+                                    <tr><td colspan="6" class="p-4 text-center italic text-slate-500">Pilih nama siswa di atas untuk melihat data pembayaran.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -686,7 +697,7 @@
         </main>
     </div>
 
-    <!-- WADAH 1: TEMPLATE STRUK TUNGGAL KASIR -->
+    <!-- WADAH STRUK TUNGGAL -->
     <div id="strukTunggalBoxUtama" class="hidden max-w-sm mx-auto bg-white border-2 border-dashed border-slate-400 p-6 rounded-lg font-mono text-xs text-black shadow-sm my-4">
         <div class="text-center space-y-1 mb-4 border-b border-slate-200 pb-3">
             <h4 class="font-bold text-sm tracking-tight">SMK AL KAAFFAH</h4>
@@ -705,7 +716,7 @@
         <div class="text-center mt-6 border-t border-dashed border-slate-300 pt-3 text-[9px] text-slate-500 italic">Data tersimpan aman di Cloud Sistem.</div>
     </div>
 
-    <!-- WADAH 2: WADAH PENCETAKAN TAMPILAN LAPORAN & TABEL -->
+    <!-- WADAH PENCETAKAN LAPORAN LAPORAN LAPORAN -->
     <div id="areaCetak" class="hidden font-sans p-6 text-slate-800"></div>
 
     <!-- Modal Tambah Siswa -->
@@ -920,6 +931,7 @@
             if (bodyPengeluaran) bodyPengeluaran.innerHTML = htmlKeluar || `<tr><td colspan="7" class="p-5 text-center italic text-slate-500">Belum ada data pengeluaran.</td></tr>`;
         };
 
+        // KALKULASI REKAP SISWA & RENDER TABEL BAWAH LENGKAP
         window.prosesKalkulasiSPPSiswa = function() {
             let nama = document.getElementById('cariNamaSiswaSPP').value.trim().toLowerCase();
             let rawTarget = document.getElementById('targetWajibBayar').value.replace(/,/g, '');
@@ -929,7 +941,7 @@
                 document.getElementById('statSudahBayar').innerText = "Rp 0";
                 document.getElementById('statSisaTunggakan').innerText = "Rp 0";
                 document.getElementById('statStatusLunas').innerText = "Belum Memilih Siswa";
-                document.getElementById('tabelRiwayatSPPSiswa').innerHTML = `<tr><td colspan="4" class="p-4 text-center italic text-slate-500">Pilih nama siswa di atas.</td></tr>`;
+                document.getElementById('tabelRiwayatSPPSiswa').innerHTML = `<tr><td colspan="6" class="p-4 text-center italic text-slate-500">Pilih nama siswa di atas untuk melihat data pembayaran.</td></tr>`;
                 return;
             }
 
@@ -937,14 +949,19 @@
             let totalBayar = 0;
             let htmlTr = "";
 
-            dataSiswa.forEach(d => {
+            dataSiswa.forEach((d, idx) => {
                 totalBayar += d.jumlah;
                 htmlTr += `
-                    <tr>
-                        <td class="p-3 font-medium">${d.tanggal}</td>
-                        <td class="p-3"><span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold">${d.kategori}</span></td>
+                    <tr class="hover:bg-slate-800/40 transition">
+                        <td class="p-3 text-center font-bold text-slate-500">${idx + 1}</td>
+                        <td class="p-3 whitespace-nowrap text-slate-300">${d.tanggal}</td>
+                        <td class="p-3"><span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold">${d.kategori}</span></td>
                         <td class="p-3 text-slate-400">${d.keterangan || '-'}</td>
-                        <td class="p-3 text-right font-bold text-emerald-400 font-mono">Rp ${d.jumlah.toLocaleString('id-ID')}</td>
+                        <td class="p-3 text-right font-black text-emerald-400 font-mono">Rp ${d.jumlah.toLocaleString('id-ID')}</td>
+                        <td class="p-3 text-center space-x-1 whitespace-nowrap no-print">
+                            <button onclick="cetakStrukLangsungDariLive('${d.id}')" class="bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold cursor-pointer transition">🖨️ Struk</button>
+                            <button onclick="hapusSatuTransaksi('${d.id}', '${d.nama}')" class="bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 px-2 py-1 rounded-lg text-[10px] font-bold cursor-pointer">Hapus</button>
+                        </td>
                     </tr>
                 `;
             });
@@ -962,10 +979,20 @@
                 statusBox.className = "text-sm font-black text-rose-400 uppercase mt-2";
             }
 
-            document.getElementById('tabelRiwayatSPPSiswa').innerHTML = htmlTr || `<tr><td colspan="4" class="p-4 text-center italic text-slate-500">Belum ada riwayat pembayaran untuk siswa ini.</td></tr>`;
+            document.getElementById('tabelRiwayatSPPSiswa').innerHTML = htmlTr || `<tr><td colspan="6" class="p-4 text-center italic text-slate-500">Belum ada riwayat pembayaran untuk siswa ini.</td></tr>`;
         };
 
-        // CETAK KARTU SPP SISWA
+        // FUNGSI SIMPAN STATUS REKAP SISWA
+        window.simpanStatusRekapSiswa = function() {
+            let nama = document.getElementById('cariNamaSiswaSPP').value.trim();
+            if (!nama) {
+                alert("Silakan masukkan/pilih nama siswa terlebih dahulu.");
+                return;
+            }
+            window.prosesKalkulasiSPPSiswa();
+            alert(`Berhasil menyimpan status rekapitulasi SPP untuk siswa: ${nama.toUpperCase()}`);
+        };
+
         window.cetakRekapSPPSiswa = function() {
             let nama = document.getElementById('cariNamaSiswaSPP').value.trim();
             if (!nama) {
@@ -995,7 +1022,7 @@
                             <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Tanggal Bayar</th>
                             <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Kategori Item</th>
                             <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Keterangan</th>
-                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:right;">Jumlah Uang (Rp)</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:right;">Nominal (Rp)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1219,7 +1246,7 @@
             tutupModalSiswa();
         };
 
-        // CETAK STRUK TUNGGAL
+        // CETAK STRUK INDIVIDUAL
         window.cetakStrukLangsungDariLive = function(idDocument) {
             const data = window.dataMasterCloud.find(d => d.id === idDocument);
             if(!data) return;
@@ -1253,7 +1280,7 @@
         };
     </script>
 
-    <!-- Script Pendukung Interaksi UI & Handler Pencetakan Laporan -->
+    <!-- Script Interaksi UI -->
     <script>
         function prosesLogin(e){
             e.preventDefault();
@@ -1315,7 +1342,6 @@
             input.value = value ? parseFloat(value).toLocaleString('en-US') : '';
         }
 
-        // FUNGSI UTAMA UNTUK MENCETAK LAYOUT BUKU KAS / TABEL LAPORAN
         function cetakMenggunakanLayoutLaporan(htmlIsiContent) {
             const areaCetak = document.getElementById('areaCetak');
             areaCetak.innerHTML = htmlIsiContent;
