@@ -26,7 +26,7 @@
             .no-print { display: none !important; }
         }
         
-        /* FIX BUG STRUK KOSONG: CSS Printer Struk Tunggal Kasir (Aman Tanpa Bentrok) */
+        /* FIX BUG STRUK KOSONG: CSS Printer Struk Tunggal Kasir */
         @media print {
             body.sedang-cetak-struk * {
                 visibility: hidden !important;
@@ -181,7 +181,7 @@
                             </div>
 
                             <div class="relative">
-                                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">2. Variabel / Kategori (Bisa Ketik Baru)</label>
+                                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">2. Variabel / Kategori (Bisa Pilih Subvariabel/Ketik Baru)</label>
                                 <input type="text" id="kategoriInput" oninput="filterKategoriAutocomplete(this.value)" onfocus="filterKategoriAutocomplete(this.value)" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm font-medium" placeholder="Ketik kode/nama kategori..." autocomplete="off" required>
                                 <div id="boxHasilKategori" class="hidden absolute left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl max-h-48 overflow-y-auto z-30 divide-y divide-slate-100"></div>
                             </div>
@@ -433,6 +433,29 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, getDocs, deleteDoc, doc, writeBatch, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // ==========================================================
+        // DEKLARASI VARIABEL PEMASUKAN & PENGELUARAN BESERTA SUBVARIABEL
+        // ==========================================================
+        window.pemasukan = {
+            jenis: "Pemasukan",
+            subVariable: {
+                spp: { kode: "SPP", nama: "SPP Bulanan Siswa", deskripsi: "Pembayaran iuran rutin bulanan siswa" },
+                pendaftaran: { kode: "PENDAFTARAN", nama: "Uang Pendaftaran / PPDB", deskripsi: "Penerimaan siswa baru" },
+                seragam: { kode: "SERAGAM", nama: "Pembayaran Seragam & Atribut", deskripsi: "Biaya seragam dan perlengkapan" },
+                lainLain: { kode: "PEMASUKAN_LAIN", nama: "Pemasukan Lain-lain", deskripsi: "Sumbangan atau pendapatan internal lainnya" }
+            }
+        };
+
+        window.pengeluaran = {
+            jenis: "Pengeluaran",
+            subVariable: {
+                operasional: { kode: "OPS", nama: "Operasional TU & Sekolah", deskripsi: "Biaya listrik, air, internet, dan ATK" },
+                gaji: { kode: "GAJI", nama: "Gaji & Honorarium", deskripsi: "Pengeluaran honor guru dan karyawan" },
+                pemeliharaan: { kode: "MAINTENANCE", nama: "Pemeliharaan & Perbaikan Sarpras", deskripsi: "Servis dan perbaikan fasilitas" },
+                kegiatan: { kode: "KEGIATAN", nama: "Kegiatan Siswa & Acara", deskripsi: "Pengeluaran acara sekolah dan ekskul" }
+            }
+        };
 
         // Konfigurasi Firebase Project Anda
         const firebaseConfig = {
@@ -716,13 +739,30 @@
             input.value = value ? parseFloat(value).toLocaleString('en-US') : '';
         }
 
+        // AUTOCOMPLETE KATEGORI TERINTEGRASI VARIABEL & SUBVARIABEL
         function filterKategoriAutocomplete(val) {
             const jenis = document.querySelector('input[name="jenis_kas"]:checked').value;
-            let cocok = window.kategoriCloudCache.filter(k => k.namaKategori.toLowerCase().includes(val.toLowerCase()) && k.jenisKas === jenis);
+            
+            // Mengambil subvariabel dari objek sesuai alur yang dipilih
+            let subVars = [];
+            if (jenis === "Pemasukan" && window.pemasukan) {
+                subVars = Object.values(window.pemasukan.subVariable).map(s => ({ namaKategori: s.nama, jenisKas: "Pemasukan" }));
+            } else if (jenis === "Pengeluaran" && window.pengeluaran) {
+                subVars = Object.values(window.pengeluaran.subVariable).map(s => ({ namaKategori: s.nama, jenisKas: "Pengeluaran" }));
+            }
+
+            // Penggabungan data subvariabel statis dengan kategori dari cache cloud
+            let gabungan = [...subVars, ...window.kategoriCloudCache];
+            let cocok = gabungan.filter(k => k.namaKategori.toLowerCase().includes(val.toLowerCase()) && k.jenisKas === jenis);
+            
+            // Hapus duplikat nama kategori
+            let unikCocok = Array.from(new Set(cocok.map(a => a.namaKategori)))
+                .map(nama => cocok.find(a => a.namaKategori === nama));
+
             const box = document.getElementById('boxHasilKategori');
-            if(cocok.length === 0) { box.classList.add('hidden'); return; }
+            if(unikCocok.length === 0) { box.classList.add('hidden'); return; }
             box.classList.remove('hidden');
-            box.innerHTML = cocok.map(k => `<div onclick="pilihKategori('${k.namaKategori}')" class="p-2.5 hover:bg-slate-50 font-medium text-xs text-slate-700 cursor-pointer">${k.namaKategori}</div>`).join('');
+            box.innerHTML = unikCocok.map(k => `<div onclick="pilihKategori('${k.namaKategori}')" class="p-2.5 hover:bg-slate-50 font-medium text-xs text-slate-700 cursor-pointer">${k.namaKategori}</div>`).join('');
         }
 
         window.pilihKategori = function(nama) {
