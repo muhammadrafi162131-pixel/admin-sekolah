@@ -16,29 +16,50 @@
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
+        /* ========================================== */
+        /* ATURAN KHUSUS PENCETAKAN (PRINT STYLES)     */
+        /* ========================================== */
         @media print {
-            body:not(.sedang-cetak-struk) #halamanDashboard { display: none !important; }
-            body:not(.sedang-cetak-struk) #areaCetak {
-                display: block !important;
-                visibility: visible !important;
-                position: absolute;
-                left: 0; top: 0; width: 100%;
+            /* Sembunyikan seluruh tampilan aplikasi saat cetak */
+            body * {
+                visibility: hidden !important;
             }
-            body:not(.sedang-cetak-struk) #areaCetak * { visibility: visible !important; }
-            .no-print { display: none !important; }
-        }
-        
-        @media print {
-            body.sedang-cetak-struk * { visibility: hidden !important; }
-            body.sedang-cetak-struk #strukTunggalBoxUtama, 
-            body.sedang-cetak-struk #strukTunggalBoxUtama * { visibility: visible !important; }
-            body.sedang-cetak-struk #strukTunggalBoxUtama {
+
+            /* 1. Mode Cetak Struk Tunggal Kasir */
+            body.mode-cetak-struk #strukTunggalBoxUtama,
+            body.mode-cetak-struk #strukTunggalBoxUtama * {
+                visibility: visible !important;
+            }
+            body.mode-cetak-struk #strukTunggalBoxUtama {
                 display: block !important;
                 position: absolute !important;
-                top: 0 !important; left: 0 !important;
-                width: 100% !important; max-width: 100% !important;
-                border: none !important; padding: 0 !important; margin: 0 !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                max-width: 80mm !important; /* Standar Ukuran Kertas Struk / Thermal */
+                margin: 0 auto !important;
+                padding: 10px !important;
+                color: #000 !important;
             }
+
+            /* 2. Mode Cetak Laporan / Tabel / Kartu SPP */
+            body.mode-cetak-laporan #areaCetak,
+            body.mode-cetak-laporan #areaCetak * {
+                visibility: visible !important;
+            }
+            body.mode-cetak-laporan #areaCetak {
+                display: block !important;
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 20px !important;
+                color: #000 !important;
+                background: #fff !important;
+            }
+            
+            .no-print { display: none !important; }
         }
     </style>
 </head>
@@ -97,7 +118,6 @@
                 </div>
 
                 <nav class="space-y-2">
-                    <!-- Dashboard Utama -->
                     <button onclick="pindahMenu('menuTransaksi')" id="btnNavTransaksi" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs tracking-wide uppercase transition duration-200 bg-indigo-600 text-white shadow-lg shadow-indigo-600/25 cursor-pointer text-left">
                         📊 Dashboard Utama
                     </button>
@@ -128,7 +148,6 @@
                         </div>
                     </div>
 
-                    <!-- FITUR BARU 1 & 2: REKAP SPP & TUNGGAKAN SISWA -->
                     <button onclick="pindahMenu('menuRekapSiswa')" id="btnNavRekapSiswa" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs tracking-wide uppercase transition duration-200 text-amber-400 hover:bg-slate-800/60 cursor-pointer text-left">
                         🎓 Cek SPP & Tunggakan Siswa
                     </button>
@@ -162,7 +181,7 @@
         <!-- Area Konten Utama -->
         <main class="flex-1 p-4 lg:p-8 overflow-y-auto w-full bg-slate-950">
             
-            <!-- Menu Dashboard Utama -->
+            <!-- Dashboard Utama -->
             <div id="menuTransaksi" class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                     <div class="bg-slate-900/60 border border-slate-800/80 p-5 rounded-2xl relative overflow-hidden group">
@@ -179,9 +198,7 @@
                     </div>
                 </div>
 
-                <!-- FITUR BARU 3 & 5: BATAS ANGGARAN & DAKSBORD VISUALISASI -->
                 <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
-                    <!-- Fitur Anggaran Limit Pengeluaran -->
                     <div class="bg-slate-900/60 border border-slate-800/80 p-5 rounded-2xl space-y-3">
                         <div class="flex justify-between items-center">
                             <span class="text-xs font-extrabold text-white tracking-tight uppercase">🛡️ Control Limit Pengeluaran</span>
@@ -199,7 +216,6 @@
                         </div>
                     </div>
 
-                    <!-- Visualisasi Rasio Kas -->
                     <div class="xl:col-span-2 bg-slate-900/60 border border-slate-800/80 p-5 rounded-2xl space-y-3">
                         <div class="flex justify-between items-center">
                             <span class="text-xs font-extrabold text-white tracking-tight uppercase">📈 Rasio Arus Kas (Pemasukan vs Pengeluaran)</span>
@@ -288,7 +304,6 @@
                     </form>
                 </div>
 
-                <!-- Tabel Riwayat Pemasukan -->
                 <div class="bg-slate-900/60 border border-slate-800/80 p-6 rounded-2xl space-y-4">
                     <div class="flex flex-wrap justify-between items-center gap-3">
                         <div>
@@ -366,7 +381,6 @@
                     </form>
                 </div>
 
-                <!-- Tabel Riwayat Pengeluaran -->
                 <div class="bg-slate-900/60 border border-slate-800/80 p-6 rounded-2xl space-y-4">
                     <div class="flex flex-wrap justify-between items-center gap-3">
                         <div>
@@ -399,13 +413,13 @@
                 </div>
             </div>
 
-            <!-- HALAMAN BARU: FITUR REKAP SPP & PERHITUNGAN TUNGGAKAN SISWA -->
+            <!-- HALAMAN SPP SISWA -->
             <div id="menuRekapSiswa" class="hidden space-y-6 max-w-5xl mx-auto">
                 <div class="bg-slate-900/60 border border-amber-500/30 p-6 rounded-2xl space-y-5">
                     <div class="border-b border-slate-800/80 pb-4 flex justify-between items-center">
                         <div>
                             <h3 class="text-lg font-extrabold text-white tracking-tight">🎓 Cek Pembayaran SPP & Tunggakan Siswa</h3>
-                            <p class="text-xs text-slate-400 mt-0.5">Hitung otomatis total SPP yang telah dibayar dan sisa sisa tagihan per siswa</p>
+                            <p class="text-xs text-slate-400 mt-0.5">Hitung otomatis total SPP yang telah dibayar dan sisa tagihan per siswa</p>
                         </div>
                         <span class="px-3 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold text-[10px] rounded-lg uppercase tracking-wider">Modul SPP Sekolah</span>
                     </div>
@@ -427,7 +441,6 @@
                         </div>
                     </div>
 
-                    <!-- Statistik SPP Siswa -->
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
                         <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-xl">
                             <div class="text-[10px] font-bold text-slate-400 uppercase">Total Sudah Dibayar</div>
@@ -443,7 +456,6 @@
                         </div>
                     </div>
 
-                    <!-- Tabel Riwayat Transaksi Siswa Ini -->
                     <div class="border border-slate-800/80 rounded-2xl overflow-hidden bg-slate-950/40 mt-4">
                         <div class="p-3.5 bg-slate-950 border-b border-slate-800/80 font-bold text-xs text-slate-300 uppercase tracking-wider">Riwayat Pembayaran Masuk Untuk Siswa Ini</div>
                         <table class="w-full text-left text-xs">
@@ -674,7 +686,7 @@
         </main>
     </div>
 
-    <!-- Template Struk Tunggal Kasir -->
+    <!-- WADAH 1: TEMPLATE STRUK TUNGGAL KASIR -->
     <div id="strukTunggalBoxUtama" class="hidden max-w-sm mx-auto bg-white border-2 border-dashed border-slate-400 p-6 rounded-lg font-mono text-xs text-black shadow-sm my-4">
         <div class="text-center space-y-1 mb-4 border-b border-slate-200 pb-3">
             <h4 class="font-bold text-sm tracking-tight">SMK AL KAAFFAH</h4>
@@ -693,7 +705,7 @@
         <div class="text-center mt-6 border-t border-dashed border-slate-300 pt-3 text-[9px] text-slate-500 italic">Data tersimpan aman di Cloud Sistem.</div>
     </div>
 
-    <!-- Wadah Print Kolektif -->
+    <!-- WADAH 2: WADAH PENCETAKAN TAMPILAN LAPORAN & TABEL -->
     <div id="areaCetak" class="hidden font-sans p-6 text-slate-800"></div>
 
     <!-- Modal Tambah Siswa -->
@@ -908,7 +920,6 @@
             if (bodyPengeluaran) bodyPengeluaran.innerHTML = htmlKeluar || `<tr><td colspan="7" class="p-5 text-center italic text-slate-500">Belum ada data pengeluaran.</td></tr>`;
         };
 
-        // FITUR LOGIKA BARU: HITUNG TUNGGAKAN SISWA
         window.prosesKalkulasiSPPSiswa = function() {
             let nama = document.getElementById('cariNamaSiswaSPP').value.trim().toLowerCase();
             let rawTarget = document.getElementById('targetWajibBayar').value.replace(/,/g, '');
@@ -954,7 +965,80 @@
             document.getElementById('tabelRiwayatSPPSiswa').innerHTML = htmlTr || `<tr><td colspan="4" class="p-4 text-center italic text-slate-500">Belum ada riwayat pembayaran untuk siswa ini.</td></tr>`;
         };
 
-        // FITUR LOGIKA BARU: ANGARAAN LIMIT PENGELUARAN
+        // CETAK KARTU SPP SISWA
+        window.cetakRekapSPPSiswa = function() {
+            let nama = document.getElementById('cariNamaSiswaSPP').value.trim();
+            if (!nama) {
+                alert("Silakan pilih atau ketik nama siswa terlebih dahulu.");
+                return;
+            }
+
+            let rawTarget = document.getElementById('targetWajibBayar').value.replace(/,/g, '');
+            let target = parseFloat(rawTarget) || 0;
+            let dataSiswa = window.dataMasterCloud.filter(d => d.jenisKas === 'Pemasukan' && d.nama.toLowerCase().includes(nama.toLowerCase()));
+
+            let totalBayar = 0;
+            let htmlPrint = `
+                <div style="text-align:center; margin-bottom:20px; border-b:2px solid #000; padding-bottom:10px;">
+                    <h2 style="font-size:16px; margin:0; text-transform:uppercase;">KARTU PEMBAYARAN SPP & SERAGAM SISWA</h2>
+                    <p style="font-size:12px; font-weight:bold; margin:4px 0 0 0;">SMK AL KAAFFAH KEPANJEN</p>
+                </div>
+                <table style="width:100%; font-size:12px; margin-bottom:15px;">
+                    <tr><td style="width:120px;"><b>Nama Siswa:</b></td><td>${nama.toUpperCase()}</td></tr>
+                    <tr><td><b>Wajib Bayar (Target):</b></td><td>Rp ${target.toLocaleString('id-ID')}</td></tr>
+                </table>
+
+                <table style="width:100%; border-collapse:collapse; font-size:11px;">
+                    <thead>
+                        <tr style="background:#f1f5f9;">
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:center; width:30px;">No</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Tanggal Bayar</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Kategori Item</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Keterangan</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:right;">Jumlah Uang (Rp)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            dataSiswa.forEach((d, i) => {
+                totalBayar += d.jumlah;
+                htmlPrint += `
+                    <tr>
+                        <td style="padding:6px; border:1px solid #cbd5e1; text-align:center;">${i+1}</td>
+                        <td style="padding:6px; border:1px solid #cbd5e1;">${d.tanggal}</td>
+                        <td style="padding:6px; border:1px solid #cbd5e1;">${d.kategori}</td>
+                        <td style="padding:6px; border:1px solid #cbd5e1;">${d.keterangan || '-'}</td>
+                        <td style="padding:6px; border:1px solid #cbd5e1; text-align:right; font-weight:bold;">Rp ${d.jumlah.toLocaleString('id-ID')}</td>
+                    </tr>
+                `;
+            });
+
+            let sisa = target - totalBayar;
+
+            htmlPrint += `
+                    <tr style="background:#f8fafc; font-weight:bold;">
+                        <td colspan="4" style="padding:8px; border:1px solid #cbd5e1; text-align:right;">TOTAL DIBAYAR:</td>
+                        <td style="padding:8px; border:1px solid #cbd5e1; text-align:right; color:#16a34a;">Rp ${totalBayar.toLocaleString('id-ID')}</td>
+                    </tr>
+                    <tr style="background:#f1f5f9; font-weight:bold;">
+                        <td colspan="4" style="padding:8px; border:1px solid #cbd5e1; text-align:right;">SISA TUNGGAKAN:</td>
+                        <td style="padding:8px; border:1px solid #cbd5e1; text-align:right; color:${sisa<=0?'#16a34a':'#dc2626'};">Rp ${sisa<=0?0:sisa.toLocaleString('id-ID')}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top:30px; text-align:right; font-size:11px;">
+                <p>Kepanjen, ${new Date().toLocaleDateString('id-ID')}</p>
+                <p>Petugas Kasir TU,</p>
+                <br><br>
+                <p>( _______________________ )</p>
+            </div>
+            `;
+
+            cetakMenggunakanLayoutLaporan(htmlPrint);
+        };
+
         window.hitungBudgetLimit = function() {
             let rawLimit = document.getElementById('inputLimitBudget').value.replace(/,/g, '');
             let limit = parseFloat(rawLimit) || 0;
@@ -1079,7 +1163,6 @@
                 }
             });
 
-            // Update Grafik Rasio Persentase
             let grandTotal = sumMasukTotal + sumKeluarTotal;
             let persenMasuk = grandTotal > 0 ? (sumMasukTotal / grandTotal) * 100 : 50;
             let persenKeluar = grandTotal > 0 ? (sumKeluarTotal / grandTotal) * 100 : 50;
@@ -1136,6 +1219,7 @@
             tutupModalSiswa();
         };
 
+        // CETAK STRUK TUNGGAL
         window.cetakStrukLangsungDariLive = function(idDocument) {
             const data = window.dataMasterCloud.find(d => d.id === idDocument);
             if(!data) return;
@@ -1148,15 +1232,13 @@
             document.getElementById('s_ket').innerText = data.keterangan || "-";
             document.getElementById('s_total').innerText = `Rp ${data.jumlah.toLocaleString('id-ID')}`;
             
-            const boxStruk = document.getElementById('strukTunggalBoxUtama');
-            boxStruk.classList.remove('hidden');
+            document.body.classList.remove('mode-cetak-laporan');
+            document.body.classList.add('mode-cetak-struk');
             
-            document.body.classList.add('sedang-cetak-struk');
             window.print();
             
             setTimeout(() => { 
-                document.body.classList.remove('sedang-cetak-struk'); 
-                boxStruk.classList.add('hidden');
+                document.body.classList.remove('mode-cetak-struk');
             }, 600);
         };
 
@@ -1171,7 +1253,7 @@
         };
     </script>
 
-    <!-- Script Pendukung & Interaksi UI -->
+    <!-- Script Pendukung Interaksi UI & Handler Pencetakan Laporan -->
     <script>
         function prosesLogin(e){
             e.preventDefault();
@@ -1231,6 +1313,82 @@
         function formatMataUangInput(input) {
             let value = input.value.replace(/[^\d]/g, "");
             input.value = value ? parseFloat(value).toLocaleString('en-US') : '';
+        }
+
+        // FUNGSI UTAMA UNTUK MENCETAK LAYOUT BUKU KAS / TABEL LAPORAN
+        function cetakMenggunakanLayoutLaporan(htmlIsiContent) {
+            const areaCetak = document.getElementById('areaCetak');
+            areaCetak.innerHTML = htmlIsiContent;
+            
+            document.body.classList.remove('mode-cetak-struk');
+            document.body.classList.add('mode-cetak-laporan');
+            
+            window.print();
+            
+            setTimeout(() => {
+                document.body.classList.remove('mode-cetak-laporan');
+                areaCetak.innerHTML = "";
+            }, 600);
+        }
+
+        function cetakTabelVariabel(jenisTarget) {
+            let dataFiltered = window.dataMasterCloud.filter(d => d.jenisKas === jenisTarget);
+            if (dataFiltered.length === 0) {
+                alert(`Tidak ada data ${jenisTarget} yang dapat dicetak.`);
+                return;
+            }
+
+            let totalAcc = 0;
+            let htmlPrint = `
+                <div style="text-align:center; margin-bottom:20px; border-b:2px solid #000; padding-bottom:10px;">
+                    <h2 style="font-size:16px; margin:0; text-transform:uppercase;">LAPORAN TRANSAKSI ${jenisTarget.toUpperCase()}</h2>
+                    <p style="font-size:11px; color:#555; margin:4px 0 0 0;">SMK AL KAAFFAH KEPANJEN</p>
+                </div>
+                <table style="width:100%; border-collapse:collapse; font-size:11px;">
+                    <thead>
+                        <tr style="background:#f1f5f9;">
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:center; width:30px;">No</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Tanggal</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Kategori</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Nama / Pihak</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Keterangan</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:right;">Nominal (Rp)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            dataFiltered.reverse().forEach((d, i) => {
+                totalAcc += d.jumlah;
+                htmlPrint += `
+                    <tr>
+                        <td style="padding:6px; border:1px solid #cbd5e1; text-align:center;">${i+1}</td>
+                        <td style="padding:6px; border:1px solid #cbd5e1;">${d.tanggal}</td>
+                        <td style="padding:6px; border:1px solid #cbd5e1;">${d.kategori}</td>
+                        <td style="padding:6px; border:1px solid #cbd5e1;"><b>${d.nama.toUpperCase()}</b></td>
+                        <td style="padding:6px; border:1px solid #cbd5e1;">${d.keterangan || '-'}</td>
+                        <td style="padding:6px; border:1px solid #cbd5e1; text-align:right; font-weight:bold;">Rp ${d.jumlah.toLocaleString('id-ID')}</td>
+                    </tr>
+                `;
+            });
+
+            htmlPrint += `
+                    <tr style="background:#f8fafc; font-weight:bold;">
+                        <td colspan="5" style="padding:8px; border:1px solid #cbd5e1; text-align:right;">TOTAL KUMULATIF ${jenisTarget.toUpperCase()}:</td>
+                        <td style="padding:8px; border:1px solid #cbd5e1; text-align:right; color:${jenisTarget==='Pemasukan'?'#16a34a':'#dc2626'}">Rp ${totalAcc.toLocaleString('id-ID')}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top:30px; text-align:right; font-size:11px;">
+                <p>Kepanjen, ${new Date().toLocaleDateString('id-ID')}</p>
+                <p>Bendahara Sekolah,</p>
+                <br><br>
+                <p>( _______________________ )</p>
+            </div>
+            `;
+
+            cetakMenggunakanLayoutLaporan(htmlPrint);
         }
 
         window.filterDataSemua = function() {
@@ -1304,7 +1462,6 @@
             XLSX.writeFile(wb, `Laporan_Kas_TU_${new Date().toISOString().split('T')[0]}.xlsx`);
         }
 
-        // FITUR BARU 4: CETAK RESMI DENGAN TANDA TANGAN
         function cetakLaporanKolektif() {
             if(!window.dataFilteredLokal || window.dataFilteredLokal.length === 0) return;
             
@@ -1312,7 +1469,7 @@
             let totalKeluar = 0;
 
             let htmlPrint = `
-                <div style="text-align:center; margin-bottom:20px;">
+                <div style="text-align:center; margin-bottom:20px; border-b:2px solid #000; padding-bottom:10px;">
                     <h2 style="font-size:16px; margin:0; text-transform:uppercase;">LAPORAN REKAPITULASI BUKU KAS SEKOLAH</h2>
                     <p style="font-size:11px; color:#555; margin:4px 0 0 0;">SMK AL KAAFFAH - Kepanjen, Malang, Jawa Timur</p>
                 </div>
@@ -1360,15 +1517,14 @@
                 </tbody>
             </table>
 
-            <!-- Kolom Tanda Tangan Resmi Sekolah -->
-            <div style="margin-top:40px; display:flex; justify-between:space-between; font-size:11px; font-weight:bold; text-align:center;">
-                <div style="width:40%;">
+            <div style="margin-top:40px; font-size:11px; font-weight:bold;">
+                <div style="float:left; width:40%; text-align:center;">
                     <p>Mengetahui,</p>
                     <p>Kepala Sekolah</p>
                     <br><br><br>
                     <p>( _______________________ )</p>
                 </div>
-                <div style="width:40%; float:right;">
+                <div style="float:right; width:40%; text-align:center;">
                     <p>Kepanjen, ${new Date().toLocaleDateString('id-ID')}</p>
                     <p>Bendahara / Admin TU</p>
                     <br><br><br>
@@ -1376,17 +1532,8 @@
                 </div>
             </div>
             `;
-            
-            const areaCetak = document.getElementById('areaCetak');
-            areaCetak.innerHTML = htmlPrint;
-            areaCetak.classList.remove('hidden');
-            
-            window.print();
-            
-            setTimeout(() => {
-                areaCetak.classList.add('hidden');
-                areaCetak.innerHTML = "";
-            }, 600);
+
+            cetakMenggunakanLayoutLaporan(htmlPrint);
         }
 
         function unduhTemplateExcel(tipe) {
