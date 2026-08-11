@@ -52,10 +52,10 @@
 <body class="bg-slate-100 text-slate-700 font-sans antialiased">
 
     <!-- Halaman Login -->
-    <div id="halamanLogin" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-indigo-950 p-4">
-        <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md border border-slate-100">
+    <div id="halamanLogin" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-4">
+        <div class="bg-white/95 backdrop-blur-md p-8 rounded-3xl shadow-2xl w-full max-w-md border border-white/20">
             <div class="text-center mb-8">
-                <div class="w-16 h-16 bg-indigo-600 rounded-2xl mx-auto flex items-center justify-center shadow-lg shadow-indigo-200 mb-4">
+                <div class="w-16 h-16 bg-gradient-to-tr from-indigo-600 to-indigo-500 rounded-2xl mx-auto flex items-center justify-center shadow-lg shadow-indigo-500/30 mb-4">
                     <span class="text-white text-2xl font-black">TU</span>
                 </div>
                 <h1 class="text-2xl font-extrabold text-slate-800 tracking-tight">Kasir TU Cloud</h1>
@@ -70,7 +70,7 @@
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Password</label>
                     <input type="password" id="password" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium transition" placeholder="••••••••" required>
                 </div>
-                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-indigo-200 cursor-pointer">Masuk ke Sistem</button>
+                <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-indigo-200 cursor-pointer">Masuk ke Sistem</button>
             </form>
         </div>
     </div>
@@ -92,10 +92,10 @@
         </div>
 
         <!-- Sidebar Navigation -->
-        <aside id="sidebarAplikasi" class="w-72 bg-slate-900 text-slate-300 p-4 flex flex-col justify-between fixed inset-y-0 left-0 z-50 transform -translate-x-full lg:translate-x-0 lg:static transition-transform duration-300 ease-in-out overflow-y-auto">
+        <aside id="sidebarAplikasi" class="w-72 bg-slate-900 text-slate-300 p-4 flex flex-col justify-between fixed inset-y-0 left-0 z-50 transform -translate-x-full lg:translate-x-0 lg:static transition-transform duration-300 ease-in-out overflow-y-auto border-r border-slate-800">
             <div>
                 <div class="flex items-center gap-3 mb-6 px-2 mt-2 lg:mt-0">
-                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-md">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-indigo-600 to-indigo-500 rounded-xl flex items-center justify-center shadow-md shadow-indigo-500/20">
                         <span class="text-white text-lg font-black">TU</span>
                     </div>
                     <div>
@@ -105,34 +105,34 @@
                 </div>
 
                 <nav class="space-y-2">
-                    <!-- Menu Dashboard / Transaksi Utama -->
+                    <!-- Menu Dashboard Utama -->
                     <button onclick="pindahMenu('menuTransaksi')" id="btnNavTransaksi" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs tracking-wide uppercase transition duration-200 bg-indigo-600 text-white shadow-md cursor-pointer text-left">
                         📝 Dashboard Utama
                     </button>
 
                     <!-- Variable 1: PEMASUKAN MENU -->
-                    <div class="rounded-xl bg-slate-950/40 border border-slate-800/80 overflow-hidden">
+                    <div class="rounded-xl bg-slate-950/60 border border-slate-800/80 overflow-hidden">
                         <button onclick="toggleSubMenu('dropdownPemasukan'); pindahMenu('menuFormPemasukan')" id="btnNavPemasukan" class="w-full flex items-center justify-between px-4 py-3 font-bold text-xs tracking-wide uppercase transition text-emerald-400 hover:bg-slate-800 cursor-pointer text-left">
                             <span class="flex items-center gap-2">📥 1. Pemasukan Kas</span>
                             <span id="iconPemasukan" class="text-[10px]">▼</span>
                         </button>
                         <!-- Subvariable Dropdown Pemasukan -->
-                        <div id="dropdownPemasukan" class="hidden bg-slate-950/80 divide-y divide-slate-800/50 max-h-48 overflow-y-auto">
-                            <div id="subVarPemasukanList" class="p-2 text-[10px] space-y-1 text-slate-400">
+                        <div id="dropdownPemasukan" class="hidden bg-slate-950/90 divide-y divide-slate-800/50 max-h-52 overflow-y-auto">
+                            <div id="subVarPemasukanList" class="p-2 text-[10px] space-y-1.5 text-slate-400">
                                 <p class="italic text-slate-600 text-center py-1">Belum ada pencatatan</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Variable 2: PENGELUARAN MENU -->
-                    <div class="rounded-xl bg-slate-950/40 border border-slate-800/80 overflow-hidden">
+                    <div class="rounded-xl bg-slate-950/60 border border-slate-800/80 overflow-hidden">
                         <button onclick="toggleSubMenu('dropdownPengeluaran'); pindahMenu('menuFormPengeluaran')" id="btnNavPengeluaran" class="w-full flex items-center justify-between px-4 py-3 font-bold text-xs tracking-wide uppercase transition text-rose-400 hover:bg-slate-800 cursor-pointer text-left">
                             <span class="flex items-center gap-2">📤 2. Pengeluaran Kas</span>
                             <span id="iconPengeluaran" class="text-[10px]">▼</span>
                         </button>
                         <!-- Subvariable Dropdown Pengeluaran -->
-                        <div id="dropdownPengeluaran" class="hidden bg-slate-950/80 divide-y divide-slate-800/50 max-h-48 overflow-y-auto">
-                            <div id="subVarPengeluaranList" class="p-2 text-[10px] space-y-1 text-slate-400">
+                        <div id="dropdownPengeluaran" class="hidden bg-slate-950/90 divide-y divide-slate-800/50 max-h-52 overflow-y-auto">
+                            <div id="subVarPengeluaranList" class="p-2 text-[10px] space-y-1.5 text-slate-400">
                                 <p class="italic text-slate-600 text-center py-1">Belum ada pencatatan</p>
                             </div>
                         </div>
@@ -172,21 +172,21 @@
             <!-- Menu Dashboard Utama -->
             <div id="menuTransaksi" class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200/60">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/70">
                         <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Pemasukan Hari Ini</div>
-                        <div id="widgetMiniMasuk" class="text-xl font-black text-emerald-600 mt-1">Rp 0</div>
+                        <div id="widgetMiniMasuk" class="text-2xl font-black text-emerald-600 mt-1">Rp 0</div>
                     </div>
-                    <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200/60">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/70">
                         <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Pengeluaran Hari Ini</div>
-                        <div id="widgetMiniKeluar" class="text-xl font-black text-rose-600 mt-1">Rp 0</div>
+                        <div id="widgetMiniKeluar" class="text-2xl font-black text-rose-600 mt-1">Rp 0</div>
                     </div>
-                    <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200/60">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/70">
                         <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Estimasi Total Kas</div>
-                        <div id="widgetMiniSaldo" class="text-xl font-black text-indigo-600 mt-1">Rp 0</div>
+                        <div id="widgetMiniSaldo" class="text-2xl font-black text-indigo-600 mt-1">Rp 0</div>
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200/60 space-y-4">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/70 space-y-4">
                     <div class="flex justify-between items-center">
                         <div>
                             <h3 class="text-base font-black text-slate-800">Aktivitas Transaksi Terbaru</h3>
@@ -213,16 +213,19 @@
                 </div>
             </div>
 
-            <!-- Menu Variable 1: FORM PEMASUKAN -->
-            <div id="menuFormPemasukan" class="hidden space-y-6 max-w-2xl mx-auto">
+            <!-- Menu Variable 1: FORM & TABEL PEMASUKAN -->
+            <div id="menuFormPemasukan" class="hidden space-y-6 max-w-4xl mx-auto">
+                <!-- Form Input Pemasukan -->
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-emerald-100 space-y-5">
-                    <div class="border-b border-slate-100 pb-3">
-                        <span class="px-2.5 py-1 bg-emerald-100 text-emerald-700 font-bold text-[10px] rounded-lg uppercase tracking-wider float-right">Kas Masuk</span>
-                        <h3 class="text-lg font-black text-slate-800">📥 Catat Transaksi Pemasukan</h3>
-                        <p class="text-xs text-slate-400">Isi formulir di bawah ini untuk menambahkan data pemasukan baru</p>
+                    <div class="border-b border-slate-100 pb-3 flex justify-between items-center">
+                        <div>
+                            <h3 class="text-lg font-black text-slate-800">📥 Catat Transaksi Pemasukan</h3>
+                            <p class="text-xs text-slate-400">Isi formulir di bawah untuk menambahkan data kas masuk</p>
+                        </div>
+                        <span class="px-3 py-1 bg-emerald-100 text-emerald-700 font-bold text-[10px] rounded-lg uppercase tracking-wider">Variabel Pemasukan</span>
                     </div>
 
-                    <form onsubmit="simpanKhususKas(event, 'Pemasukan')" class="space-y-4">
+                    <form onsubmit="simpanKhususKas(event, 'Pemasukan')" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">Tanggal Transaksi</label>
                             <input type="date" id="tglPemasukan" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium text-sm" required>
@@ -243,28 +246,65 @@
                             <input type="text" id="nominalPemasukan" oninput="formatMataUangInput(this)" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 font-bold text-base text-emerald-600" placeholder="Contoh: 500,000" required>
                         </div>
 
-                        <div>
-                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">Uraian / KeteranganTambahan</label>
+                        <div class="md:col-span-2">
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">Uraian / Keterangan Tambahan</label>
                             <textarea id="ketPemasukan" rows="2" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium text-sm" placeholder="Catatan opsional..."></textarea>
                         </div>
 
-                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-emerald-200 cursor-pointer text-sm">
-                            💾 Simpan Pemasukan & Update Sidebar
-                        </button>
+                        <div class="md:col-span-2">
+                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-emerald-200 cursor-pointer text-sm">
+                                💾 Simpan Transaksi Pemasukan
+                            </button>
+                        </div>
                     </form>
+                </div>
+
+                <!-- Tabel Riwayat Pemasukan -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-emerald-100 space-y-4">
+                    <div class="flex flex-wrap justify-between items-center gap-2">
+                        <div>
+                            <h4 class="font-black text-slate-800 text-sm uppercase tracking-wider">📋 Tabel Transaksi Pemasukan</h4>
+                            <p class="text-xs text-slate-400">Daftar pencatatan kas masuk yang telah disimpan</p>
+                        </div>
+                        <button onclick="cetakTabelVariabel('Pemasukan')" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold px-4 py-2 rounded-xl text-xs transition border border-emerald-200 cursor-pointer">
+                            🖨️ Cetak Tabel Pemasukan
+                        </button>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-emerald-50/70 text-emerald-800 font-bold uppercase tracking-wider text-[10px]">
+                                <tr>
+                                    <th class="p-3">No</th>
+                                    <th class="p-3">Tanggal</th>
+                                    <th class="p-3">Kategori</th>
+                                    <th class="p-3">Nama Pembayar</th>
+                                    <th class="p-3">Keterangan</th>
+                                    <th class="p-3 text-right">Nominal (Rp)</th>
+                                    <th class="p-3 text-center no-print">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelBodyPemasukan" class="divide-y divide-slate-100 font-medium text-slate-600">
+                                <tr><td colspan="7" class="p-4 text-center italic text-slate-400">Belum ada data pemasukan.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <!-- Menu Variable 2: FORM PENGELUARAN -->
-            <div id="menuFormPengeluaran" class="hidden space-y-6 max-w-2xl mx-auto">
+            <!-- Menu Variable 2: FORM & TABEL PENGELUARAN -->
+            <div id="menuFormPengeluaran" class="hidden space-y-6 max-w-4xl mx-auto">
+                <!-- Form Input Pengeluaran -->
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-rose-100 space-y-5">
-                    <div class="border-b border-slate-100 pb-3">
-                        <span class="px-2.5 py-1 bg-rose-100 text-rose-700 font-bold text-[10px] rounded-lg uppercase tracking-wider float-right">Kas Keluar</span>
-                        <h3 class="text-lg font-black text-slate-800">📤 Catat Transaksi Pengeluaran</h3>
-                        <p class="text-xs text-slate-400">Isi formulir di bawah ini untuk mencatat dana pengeluaran baru</p>
+                    <div class="border-b border-slate-100 pb-3 flex justify-between items-center">
+                        <div>
+                            <h3 class="text-lg font-black text-slate-800">📤 Catat Transaksi Pengeluaran</h3>
+                            <p class="text-xs text-slate-400">Isi formulir di bawah untuk mencatat dana kas keluar</p>
+                        </div>
+                        <span class="px-3 py-1 bg-rose-100 text-rose-700 font-bold text-[10px] rounded-lg uppercase tracking-wider">Variabel Pengeluaran</span>
                     </div>
 
-                    <form onsubmit="simpanKhususKas(event, 'Pengeluaran')" class="space-y-4">
+                    <form onsubmit="simpanKhususKas(event, 'Pengeluaran')" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">Tanggal Transaksi</label>
                             <input type="date" id="tglPengeluaran" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 font-medium text-sm" required>
@@ -285,19 +325,53 @@
                             <input type="text" id="nominalPengeluaran" oninput="formatMataUangInput(this)" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 font-bold text-base text-rose-600" placeholder="Contoh: 150,000" required>
                         </div>
 
-                        <div>
-                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">Uraian / Keterangan</label>
+                        <div class="md:col-span-2">
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">Uraian / Keterangan Tambahan</label>
                             <textarea id="ketPengeluaran" rows="2" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 font-medium text-sm" placeholder="Catatan pengeluaran..."></textarea>
                         </div>
 
-                        <button type="submit" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-rose-200 cursor-pointer text-sm">
-                            💾 Simpan Pengeluaran & Update Sidebar
-                        </button>
+                        <div class="md:col-span-2">
+                            <button type="submit" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-rose-200 cursor-pointer text-sm">
+                                💾 Simpan Transaksi Pengeluaran
+                            </button>
+                        </div>
                     </form>
+                </div>
+
+                <!-- Tabel Riwayat Pengeluaran -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-rose-100 space-y-4">
+                    <div class="flex flex-wrap justify-between items-center gap-2">
+                        <div>
+                            <h4 class="font-black text-slate-800 text-sm uppercase tracking-wider">📋 Tabel Transaksi Pengeluaran</h4>
+                            <p class="text-xs text-slate-400">Daftar pencatatan kas keluar yang telah disimpan</p>
+                        </div>
+                        <button onclick="cetakTabelVariabel('Pengeluaran')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold px-4 py-2 rounded-xl text-xs transition border border-rose-200 cursor-pointer">
+                            🖨️ Cetak Tabel Pengeluaran
+                        </button>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-rose-50/70 text-rose-800 font-bold uppercase tracking-wider text-[10px]">
+                                <tr>
+                                    <th class="p-3">No</th>
+                                    <th class="p-3">Tanggal</th>
+                                    <th class="p-3">Kategori</th>
+                                    <th class="p-3">Nama Penerima</th>
+                                    <th class="p-3">Keterangan</th>
+                                    <th class="p-3 text-right">Nominal (Rp)</th>
+                                    <th class="p-3 text-center no-print">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelBodyPengeluaran" class="divide-y divide-slate-100 font-medium text-slate-600">
+                                <tr><td colspan="7" class="p-4 text-center italic text-slate-400">Belum ada data pengeluaran.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <!-- Menu VIEW DETAIL SUBVARIABLE (Tampilan Terisi Otomatis Dari Subvariabel) -->
+            <!-- Menu VIEW DETAIL SUBVARIABLE (Terisi Otomatis Klik Sidebar Subvariabel) -->
             <div id="menuDetailSubVariable" class="hidden space-y-6 max-w-2xl mx-auto">
                 <div id="cardDetailBox" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 space-y-5">
                     <div class="border-b border-slate-100 pb-3 flex justify-between items-center">
@@ -306,7 +380,7 @@
                             <h3 class="text-lg font-black text-slate-800 mt-2">📄 Detail Transaksi Subvariabel</h3>
                             <p class="text-xs text-slate-400">Data terisi otomatis sesuai transaksi yang Anda klik dari sidebar</p>
                         </div>
-                        <button onclick="pindahMenu('menuTransaksi')" class="text-slate-400 hover:text-slate-600 font-bold text-xs bg-slate-100 px-3 py-1.5 rounded-lg">← Kembali</button>
+                        <button onclick="pindahMenu('menuTransaksi')" class="text-slate-400 hover:text-slate-600 font-bold text-xs bg-slate-100 px-3 py-1.5 rounded-lg cursor-pointer">← Kembali</button>
                     </div>
 
                     <div class="space-y-4">
@@ -337,7 +411,7 @@
                     </div>
 
                     <div class="pt-3 border-t border-slate-100 flex gap-2 justify-end">
-                        <button id="d_btnStruk" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition cursor-pointer">
+                        <button id="d_btnStruk" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition cursor-pointer shadow-sm">
                             🖨️ Cetak Struk
                         </button>
                         <button id="d_btnHapus" class="bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold py-2.5 px-4 rounded-xl text-xs transition border border-rose-100 cursor-pointer">
@@ -349,7 +423,7 @@
 
             <!-- Menu Master Data -->
             <div id="menuMaster" class="hidden space-y-6">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200/60 space-y-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/70 space-y-6">
                     <div>
                         <h3 class="text-base font-black text-slate-800">Pusat Kendali Data & Master Variabel</h3>
                         <p class="text-xs text-slate-400">Kelola master siswa dan import massal via Excel</p>
@@ -436,7 +510,7 @@
 
             <!-- Menu Laporan -->
             <div id="menuLaporan" class="hidden space-y-6">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200/60 space-y-5">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/70 space-y-5">
                     <div>
                         <h3 class="text-base font-black text-slate-800">Laporan Buku Kas Utama</h3>
                         <p class="text-xs text-slate-400">Filter data kas secara fleksibel, ekspor ke Excel, atau cetak laporan kolektif</p>
@@ -577,7 +651,7 @@
         window.siswaCloudCache = [];
         window.kategoriCloudCache = [];
 
-        // Set Tanggal Default
+        // Set Tanggal Default Form
         if(document.getElementById('tglPemasukan')) document.getElementById('tglPemasukan').valueAsDate = new Date();
         if(document.getElementById('tglPengeluaran')) document.getElementById('tglPengeluaran').valueAsDate = new Date();
 
@@ -646,7 +720,7 @@
                 waktuInput: new Date().getTime() 
             });
 
-            // Reset form
+            // Reset Form Input
             if (jenisKas === 'Pemasukan') {
                 document.getElementById('katPemasukan').value = '';
                 document.getElementById('namaPemasukan').value = '';
@@ -659,7 +733,7 @@
                 document.getElementById('ketPengeluaran').value = '';
             }
 
-            alert(`Berhasil menyimpan ${jenisKas}!`);
+            alert(`Berhasil menyimpan data ${jenisKas}! Data otomatis ditambahkan ke tabel di bawah.`);
             
             // Otomatis Buka Dropdown Subvariable di Sidebar
             if (jenisKas === 'Pemasukan') {
@@ -671,7 +745,7 @@
             }
         };
 
-        // Realtime Listener Transaksi Utama & Subvariable Sidebar
+        // Realtime Listener Transaksi Utama
         const q = query(koleksiTransaksi, orderBy("tanggal", "asc"), orderBy("waktuInput", "asc"));
         onSnapshot(q, (snapshot) => {
             window.dataMasterCloud = [];
@@ -690,7 +764,122 @@
             window.filterDataSemua(); 
             window.updateLiveActivityDashboard();
             window.renderSubvariableSidebar();
+            window.renderTabelPerVariabel();
         });
+
+        // Render Tabel Khusus Pemasukan dan Pengeluaran
+        window.renderTabelPerVariabel = function() {
+            let bodyPemasukan = document.getElementById('tabelBodyPemasukan');
+            let bodyPengeluaran = document.getElementById('tabelBodyPengeluaran');
+
+            let htmlMasuk = "";
+            let htmlKeluar = "";
+            
+            let noMasuk = 1;
+            let noKeluar = 1;
+
+            let dataUrutTerbaru = [...window.dataMasterCloud].reverse();
+
+            dataUrutTerbaru.forEach(d => {
+                if (d.jenisKas === 'Pemasukan') {
+                    htmlMasuk += `
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-3 font-bold text-slate-400 text-center">${noMasuk++}</td>
+                            <td class="p-3 whitespace-nowrap">${d.tanggal}</td>
+                            <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-100">${d.kategori}</span></td>
+                            <td class="p-3 font-bold text-slate-800 uppercase">${d.nama}</td>
+                            <td class="p-3 text-slate-500">${d.keterangan || '-'}</td>
+                            <td class="p-3 text-right font-black text-emerald-600">Rp ${d.jumlah.toLocaleString('id-ID')}</td>
+                            <td class="p-3 text-center space-x-1 whitespace-nowrap no-print">
+                                <button onclick="cetakStrukLangsungDariLive('${d.id}')" class="bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded text-[10px] font-bold text-slate-600 cursor-pointer">Struk</button>
+                                <button onclick="hapusSatuTransaksi('${d.id}', '${d.nama}')" class="bg-rose-50 hover:bg-rose-100 text-rose-600 px-2 py-1 rounded text-[10px] font-bold cursor-pointer">Hapus</button>
+                            </td>
+                        </tr>
+                    `;
+                } else if (d.jenisKas === 'Pengeluaran') {
+                    htmlKeluar += `
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-3 font-bold text-slate-400 text-center">${noKeluar++}</td>
+                            <td class="p-3 whitespace-nowrap">${d.tanggal}</td>
+                            <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-100">${d.kategori}</span></td>
+                            <td class="p-3 font-bold text-slate-800 uppercase">${d.nama}</td>
+                            <td class="p-3 text-slate-500">${d.keterangan || '-'}</td>
+                            <td class="p-3 text-right font-black text-rose-600">Rp ${d.jumlah.toLocaleString('id-ID')}</td>
+                            <td class="p-3 text-center space-x-1 whitespace-nowrap no-print">
+                                <button onclick="cetakStrukLangsungDariLive('${d.id}')" class="bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded text-[10px] font-bold text-slate-600 cursor-pointer">Struk</button>
+                                <button onclick="hapusSatuTransaksi('${d.id}', '${d.nama}')" class="bg-rose-50 hover:bg-rose-100 text-rose-600 px-2 py-1 rounded text-[10px] font-bold cursor-pointer">Hapus</button>
+                            </td>
+                        </tr>
+                    `;
+                }
+            });
+
+            if (bodyPemasukan) bodyPemasukan.innerHTML = htmlMasuk || `<tr><td colspan="7" class="p-4 text-center italic text-slate-400">Belum ada data pemasukan.</td></tr>`;
+            if (bodyPengeluaran) bodyPengeluaran.innerHTML = htmlKeluar || `<tr><td colspan="7" class="p-4 text-center italic text-slate-400">Belum ada data pengeluaran.</td></tr>`;
+        };
+
+        // Cetak Khusus Laporan Tabel Pemasukan / Pengeluaran
+        window.cetakTabelVariabel = function(jenisTarget) {
+            let dataFiltered = window.dataMasterCloud.filter(d => d.jenisKas === jenisTarget);
+            if (dataFiltered.length === 0) {
+                alert(`Tidak ada data ${jenisTarget} yang bisa dicetak.`);
+                return;
+            }
+
+            let totalAcc = 0;
+            let htmlPrint = `
+                <div style="text-align:center; margin-bottom:20px;">
+                    <h2 style="font-size:16px; margin:0; text-transform:uppercase;">LAPORAN KHUSUS ${jenisTarget.toUpperCase()}</h2>
+                    <p style="font-size:11px; color:#555; margin:4px 0 0 0;">SMK AL KAAFFAH Kepanjen</p>
+                </div>
+                <table style="width:100%; border-collapse:collapse; font-size:11px;">
+                    <thead>
+                        <tr style="background:#f1f5f9;">
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:center; width:30px;">No</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Tanggal</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Kategori</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Nama / Pihak</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Keterangan</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:right;">Nominal (Rp)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            dataFiltered.reverse().forEach((d, i) => {
+                totalAcc += d.jumlah;
+                htmlPrint += `
+                    <tr>
+                        <td style="padding:6px; border:1px solid #cbd5e1; text-align:center;">${i+1}</td>
+                        <td style="padding:6px; border:1px solid #cbd5e1;">${d.tanggal}</td>
+                        <td style="padding:6px; border:1px solid #cbd5e1;">${d.kategori}</td>
+                        <td style="padding:6px; border:1px solid #cbd5e1;"><b>${d.nama.toUpperCase()}</b></td>
+                        <td style="padding:6px; border:1px solid #cbd5e1;">${d.keterangan || '-'}</td>
+                        <td style="padding:6px; border:1px solid #cbd5e1; text-align:right; font-weight:bold;">Rp ${d.jumlah.toLocaleString('id-ID')}</td>
+                    </tr>
+                `;
+            });
+
+            htmlPrint += `
+                    <tr style="background:#f8fafc; font-weight:bold;">
+                        <td colspan="5" style="padding:8px; border:1px solid #cbd5e1; text-align:right;">TOTAL KUMULATIF ${jenisTarget.toUpperCase()}:</td>
+                        <td style="padding:8px; border:1px solid #cbd5e1; text-align:right; color:${jenisTarget==='Pemasukan'?'#16a34a':'#dc2626'}">Rp ${totalAcc.toLocaleString('id-ID')}</td>
+                    </tr>
+                </tbody>
+            </table>
+            `;
+
+            const areaCetak = document.getElementById('areaCetak');
+            areaCetak.innerHTML = htmlPrint;
+            areaCetak.classList.remove('hidden');
+            
+            window.print();
+            
+            setTimeout(() => {
+                areaCetak.classList.add('hidden');
+                areaCetak.innerHTML = "";
+            }, 600);
+        };
 
         // Update Dropdown Subvariabel Pemasukan & Pengeluaran di Sidebar
         window.renderSubvariableSidebar = function() {
@@ -705,7 +894,7 @@
             dataReversed.forEach(d => {
                 if (d.jenisKas === 'Pemasukan') {
                     htmlMasuk += `
-                        <div onclick="lihatDetailSubvariable('${d.id}')" class="p-2 bg-slate-900/90 rounded border border-slate-800/80 hover:border-emerald-500/50 hover:bg-slate-800 transition cursor-pointer">
+                        <div onclick="lihatDetailSubvariable('${d.id}')" class="p-2 bg-slate-900/90 rounded-lg border border-slate-800/80 hover:border-emerald-500/50 hover:bg-slate-800 transition cursor-pointer">
                             <div class="font-bold text-slate-200 truncate">${d.nama}</div>
                             <div class="text-[9px] text-emerald-400 font-mono font-bold">+ Rp ${d.jumlah.toLocaleString('id-ID')}</div>
                             <div class="text-[9px] text-slate-500 truncate">${d.tanggal} • ${d.kategori}</div>
@@ -713,7 +902,7 @@
                     `;
                 } else if (d.jenisKas === 'Pengeluaran') {
                     htmlKeluar += `
-                        <div onclick="lihatDetailSubvariable('${d.id}')" class="p-2 bg-slate-900/90 rounded border border-slate-800/80 hover:border-rose-500/50 hover:bg-slate-800 transition cursor-pointer">
+                        <div onclick="lihatDetailSubvariable('${d.id}')" class="p-2 bg-slate-900/90 rounded-lg border border-slate-800/80 hover:border-rose-500/50 hover:bg-slate-800 transition cursor-pointer">
                             <div class="font-bold text-slate-200 truncate">${d.nama}</div>
                             <div class="text-[9px] text-rose-400 font-mono font-bold">- Rp ${d.jumlah.toLocaleString('id-ID')}</div>
                             <div class="text-[9px] text-slate-500 truncate">${d.tanggal} • ${d.kategori}</div>
