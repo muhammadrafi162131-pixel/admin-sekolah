@@ -297,6 +297,56 @@
                 </div>
             </div>
 
+            <!-- Menu VIEW DETAIL SUBVARIABLE (Tampilan Terisi Otomatis Dari Subvariabel) -->
+            <div id="menuDetailSubVariable" class="hidden space-y-6 max-w-2xl mx-auto">
+                <div id="cardDetailBox" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 space-y-5">
+                    <div class="border-b border-slate-100 pb-3 flex justify-between items-center">
+                        <div>
+                            <span id="d_badgeJenis" class="px-2.5 py-1 font-bold text-[10px] rounded-lg uppercase tracking-wider"></span>
+                            <h3 class="text-lg font-black text-slate-800 mt-2">📄 Detail Transaksi Subvariabel</h3>
+                            <p class="text-xs text-slate-400">Data terisi otomatis sesuai transaksi yang Anda klik dari sidebar</p>
+                        </div>
+                        <button onclick="pindahMenu('menuTransaksi')" class="text-slate-400 hover:text-slate-600 font-bold text-xs bg-slate-100 px-3 py-1.5 rounded-lg">← Kembali</button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Tanggal Transaksi</label>
+                            <input type="text" id="d_tanggal" readonly class="w-full px-4 py-3 bg-slate-100/70 border border-slate-200 rounded-xl font-bold text-sm text-slate-700 cursor-not-allowed">
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Kategori / Variabel Kas</label>
+                            <input type="text" id="d_kategori" readonly class="w-full px-4 py-3 bg-slate-100/70 border border-slate-200 rounded-xl font-bold text-sm text-slate-700 cursor-not-allowed">
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Nama Pihak Terkait / Pembayar / Penerima</label>
+                            <input type="text" id="d_nama" readonly class="w-full px-4 py-3 bg-slate-100/70 border border-slate-200 rounded-xl font-bold text-sm text-slate-800 uppercase cursor-not-allowed">
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Nominal Uang (Rp)</label>
+                            <input type="text" id="d_nominal" readonly class="w-full px-4 py-3 bg-slate-100/70 border border-slate-200 rounded-xl font-black text-lg text-indigo-600 cursor-not-allowed">
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Uraian Keterangan</label>
+                            <textarea id="d_keterangan" readonly rows="2" class="w-full px-4 py-3 bg-slate-100/70 border border-slate-200 rounded-xl font-medium text-sm text-slate-600 cursor-not-allowed"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-100 flex gap-2 justify-end">
+                        <button id="d_btnStruk" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition cursor-pointer">
+                            🖨️ Cetak Struk
+                        </button>
+                        <button id="d_btnHapus" class="bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold py-2.5 px-4 rounded-xl text-xs transition border border-rose-100 cursor-pointer">
+                            🗑️ Hapus Transaksi Ini
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Menu Master Data -->
             <div id="menuMaster" class="hidden space-y-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200/60 space-y-6">
@@ -655,7 +705,7 @@
             dataReversed.forEach(d => {
                 if (d.jenisKas === 'Pemasukan') {
                     htmlMasuk += `
-                        <div class="p-2 bg-slate-900/90 rounded border border-slate-800/80 hover:border-emerald-500/50 transition">
+                        <div onclick="lihatDetailSubvariable('${d.id}')" class="p-2 bg-slate-900/90 rounded border border-slate-800/80 hover:border-emerald-500/50 hover:bg-slate-800 transition cursor-pointer">
                             <div class="font-bold text-slate-200 truncate">${d.nama}</div>
                             <div class="text-[9px] text-emerald-400 font-mono font-bold">+ Rp ${d.jumlah.toLocaleString('id-ID')}</div>
                             <div class="text-[9px] text-slate-500 truncate">${d.tanggal} • ${d.kategori}</div>
@@ -663,7 +713,7 @@
                     `;
                 } else if (d.jenisKas === 'Pengeluaran') {
                     htmlKeluar += `
-                        <div class="p-2 bg-slate-900/90 rounded border border-slate-800/80 hover:border-rose-500/50 transition">
+                        <div onclick="lihatDetailSubvariable('${d.id}')" class="p-2 bg-slate-900/90 rounded border border-slate-800/80 hover:border-rose-500/50 hover:bg-slate-800 transition cursor-pointer">
                             <div class="font-bold text-slate-200 truncate">${d.nama}</div>
                             <div class="text-[9px] text-rose-400 font-mono font-bold">- Rp ${d.jumlah.toLocaleString('id-ID')}</div>
                             <div class="text-[9px] text-slate-500 truncate">${d.tanggal} • ${d.kategori}</div>
@@ -674,6 +724,37 @@
 
             if(listMasuk) listMasuk.innerHTML = htmlMasuk || `<p class="italic text-slate-600 text-center py-1">Belum ada pemasukan</p>`;
             if(listKeluar) listKeluar.innerHTML = htmlKeluar || `<p class="italic text-slate-600 text-center py-1">Belum ada pengeluaran</p>`;
+        };
+
+        // Buka Tampilan Detail Subvariabel yang Diklik
+        window.lihatDetailSubvariable = function(idTransaksi) {
+            const item = window.dataMasterCloud.find(d => d.id === idTransaksi);
+            if (!item) return;
+
+            pindahMenu('menuDetailSubVariable');
+
+            const badge = document.getElementById('d_badgeJenis');
+            if (item.jenisKas === 'Pemasukan') {
+                badge.className = "px-2.5 py-1 font-bold text-[10px] rounded-lg uppercase tracking-wider bg-emerald-100 text-emerald-700";
+                badge.innerText = "📥 Pemasukan Kas";
+            } else {
+                badge.className = "px-2.5 py-1 font-bold text-[10px] rounded-lg uppercase tracking-wider bg-rose-100 text-rose-700";
+                badge.innerText = "📤 Pengeluaran Kas";
+            }
+
+            document.getElementById('d_tanggal').value = item.tanggal;
+            document.getElementById('d_kategori').value = item.kategori;
+            document.getElementById('d_nama').value = item.nama;
+            document.getElementById('d_nominal').value = `Rp ${item.jumlah.toLocaleString('id-ID')}`;
+            document.getElementById('d_keterangan').value = item.keterangan || "-";
+
+            document.getElementById('d_btnStruk').onclick = function() { cetakStrukLangsungDariLive(item.id); };
+            document.getElementById('d_btnHapus').onclick = async function() {
+                if (confirm(`Hapus data ${item.jenisKas} "${item.nama}" ini?`)) {
+                    await deleteDoc(doc(db, "transaksi_tu", item.id));
+                    pindahMenu('menuTransaksi');
+                }
+            };
         };
 
         window.updateLiveActivityDashboard = function() {
@@ -803,7 +884,7 @@
         }
 
         function pindahMenu(idMenuTarget) {
-            ['menuTransaksi', 'menuFormPemasukan', 'menuFormPengeluaran', 'menuMaster', 'menuLaporan'].forEach(id => {
+            ['menuTransaksi', 'menuFormPemasukan', 'menuFormPengeluaran', 'menuDetailSubVariable', 'menuMaster', 'menuLaporan'].forEach(id => {
                 if(document.getElementById(id)) document.getElementById(id).classList.add('hidden');
             });
             
