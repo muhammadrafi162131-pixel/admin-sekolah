@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Keuangan Tata Usaha Sekolah v8.3 Pro</title>
+    <title>Sistem Keuangan Tata Usaha Sekolah v8.4 Pro</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
@@ -60,7 +60,7 @@
                     <span class="text-white text-2xl font-black">TU</span>
                 </div>
                 <h1 class="text-2xl font-extrabold text-white tracking-tight">Kasir TU Cloud Pro</h1>
-                <p class="text-xs text-slate-400 mt-1.5 font-medium">Sistem Keuangan Internal Sekolah v8.3</p>
+                <p class="text-xs text-slate-400 mt-1.5 font-medium">Sistem Keuangan Internal Sekolah v8.4</p>
             </div>
             <form onsubmit="prosesLogin(event)" class="space-y-5">
                 <div>
@@ -97,7 +97,7 @@
                     </div>
                     <div>
                         <h2 class="font-extrabold text-white text-sm tracking-tight">Kasir TU Cloud</h2>
-                        <p class="text-[10px] text-slate-500 font-semibold tracking-wider uppercase">Dashboard v8.3 Pro</p>
+                        <p class="text-[10px] text-slate-500 font-semibold tracking-wider uppercase">Dashboard v8.4 Pro</p>
                     </div>
                 </div>
 
@@ -397,13 +397,13 @@
                 </div>
             </div>
 
-            <!-- HALAMAN SPP SISWA (LENGKAP DENGAN FORM SIMPAN PEMBAYARAN SPP) -->
+            <!-- HALAMAN SPP SISWA -->
             <div id="menuRekapSiswa" class="hidden space-y-6 max-w-5xl mx-auto">
                 <div class="bg-slate-900/60 border border-amber-500/30 p-6 rounded-2xl space-y-5">
                     <div class="border-b border-slate-800/80 pb-4 flex justify-between items-center">
                         <div>
                             <h3 class="text-lg font-extrabold text-white tracking-tight">🎓 Cek SPP & Input Pembayaran Siswa</h3>
-                            <p class="text-xs text-slate-400 mt-0.5">Pilih nama siswa, input nominal bayar, lalu klik simpan untuk memperbarui tabel di bawah</p>
+                            <p class="text-xs text-slate-400 mt-0.5">Pilih nama siswa, input nominal bayar, lalu klik simpan untuk memperbarui tabel di bawah secara langsung</p>
                         </div>
                         <span class="px-3 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold text-[10px] rounded-lg uppercase tracking-wider">Modul SPP Sekolah</span>
                     </div>
@@ -457,7 +457,7 @@
                         </div>
                     </div>
 
-                    <!-- TABEL BUKTI TRANSAKSI SPP DENGAN HASIL REAL-TIME -->
+                    <!-- TABEL BUKTI TRANSAKSI SPP -->
                     <div class="border border-slate-800/80 rounded-2xl overflow-hidden bg-slate-950/40 mt-4">
                         <div class="p-3.5 bg-slate-950 border-b border-slate-800/80 flex justify-between items-center">
                             <span class="font-bold text-xs text-slate-300 uppercase tracking-wider">Hasil Rekap Pembayaran Siswa Terdaftar</span>
@@ -839,25 +839,19 @@
                 document.getElementById('namaPemasukan').value = '';
                 document.getElementById('nominalPemasukan').value = '';
                 document.getElementById('ketPemasukan').value = '';
+                document.getElementById('dropdownPemasukan').classList.remove('hidden');
+                document.getElementById('iconPemasukan').innerText = "▲";
             } else {
                 document.getElementById('katPengeluaran').value = '';
                 document.getElementById('namaPengeluaran').value = '';
                 document.getElementById('nominalPengeluaran').value = '';
                 document.getElementById('ketPengeluaran').value = '';
-            }
-
-            alert(`Berhasil menyimpan ${jenisKas}!`);
-            
-            if (jenisKas === 'Pemasukan') {
-                document.getElementById('dropdownPemasukan').classList.remove('hidden');
-                document.getElementById('iconPemasukan').innerText = "▲";
-            } else {
                 document.getElementById('dropdownPengeluaran').classList.remove('hidden');
                 document.getElementById('iconPengeluaran').innerText = "▲";
             }
         };
 
-        // FUNGSI KHUSUS SIMPAN PEMBAYARAN SPP DARI MENU REKAP
+        // SIMPAN PEMBAYARAN SPP SANGAT CEPAT - TANPA POPUP OK
         window.simpanPembayaranSPPBaru = async function() {
             let namaSiswa = document.getElementById('cariNamaSiswaSPP').value.trim();
             let rawNominal = document.getElementById('nominalBayarSPPSekarang').value.replace(/,/g, '');
@@ -865,15 +859,7 @@
             let tanggal = document.getElementById('tglBayarSPP').value || new Date().toISOString().split('T')[0];
             let ket = document.getElementById('ketBayarSPP').value.trim() || "Pembayaran SPP";
 
-            if (!namaSiswa) {
-                alert("Silakan pilih atau ketik nama siswa terlebih dahulu!");
-                return;
-            }
-
-            if (nominal <= 0) {
-                alert("Silakan masukkan nominal pembayaran uang (Rp) yang valid!");
-                return;
-            }
+            if (!namaSiswa || nominal <= 0) return;
 
             await addDoc(koleksiTransaksi, {
                 jenisKas: 'Pemasukan',
@@ -887,8 +873,6 @@
 
             document.getElementById('nominalBayarSPPSekarang').value = '';
             document.getElementById('ketBayarSPP').value = '';
-
-            alert(`Berhasil menyimpan pembayaran Rp ${nominal.toLocaleString('id-ID')} untuk siswa ${namaSiswa.toUpperCase()}! Data langsung muncul di tabel bawah.`);
         };
 
         const q = query(koleksiTransaksi, orderBy("tanggal", "asc"), orderBy("waktuInput", "asc"));
@@ -1016,10 +1000,7 @@
 
         window.cetakRekapSPPSiswa = function() {
             let nama = document.getElementById('cariNamaSiswaSPP').value.trim();
-            if (!nama) {
-                alert("Silakan pilih atau ketik nama siswa terlebih dahulu.");
-                return;
-            }
+            if (!nama) return;
 
             let rawTarget = document.getElementById('targetWajibBayar').value.replace(/,/g, '');
             let target = parseFloat(rawTarget) || 0;
@@ -1182,10 +1163,8 @@
 
             document.getElementById('d_btnStruk').onclick = function() { cetakStrukLangsungDariLive(item.id); };
             document.getElementById('d_btnHapus').onclick = async function() {
-                if (confirm(`Hapus data ${item.jenisKas} "${item.nama}" ini?`)) {
-                    await deleteDoc(doc(db, "transaksi_tu", item.id));
-                    pindahMenu('menuTransaksi');
-                }
+                await deleteDoc(doc(db, "transaksi_tu", item.id));
+                pindahMenu('menuTransaksi');
             };
         };
 
@@ -1251,12 +1230,12 @@
             const n = prompt("Ubah Nama Siswa:", namaLama); const k = prompt("Ubah Kelas:", kelasLama);
             if(n && k) await updateDoc(doc(db, "master_siswa_cloud", id), { "Nama Siswa": n.trim().toUpperCase(), "Kelas": k.trim().toUpperCase() });
         };
-        window.hapusSiswaCloud = async function(id) { if(confirm("Hapus siswa ini?")) await deleteDoc(doc(db, "master_siswa_cloud", id)); };
+        window.hapusSiswaCloud = async function(id) { await deleteDoc(doc(db, "master_siswa_cloud", id)); };
         
         window.editVariabelCloud = async function(id, namaLama) {
             const n = prompt("Ubah Nama Variabel:", namaLama); if(n) await updateDoc(doc(db, "kategori_autosave", id), { namaKategori: n.trim() });
         };
-        window.hapusVariabelCloud = async function(id) { if(confirm("Hapus kategori ini?")) await deleteDoc(doc(db, "kategori_autosave", id)); };
+        window.hapusVariabelCloud = async function(id) { await deleteDoc(doc(db, "kategori_autosave", id)); };
 
         window.simpanSiswaManualCloud = async function(e) {
             e.preventDefault();
@@ -1289,14 +1268,12 @@
             }, 600);
         };
 
-        window.hapusSatuTransaksi = async function(idDocument, namaTerhapus) {
-            if(confirm(`Hapus transaksi "${namaTerhapus}"?`)) await deleteDoc(doc(db, "transaksi_tu", idDocument));
+        window.hapusSatuTransaksi = async function(idDocument) {
+            await deleteDoc(doc(db, "transaksi_tu", idDocument));
         };
         
         window.hapusSemuaData = async function() {
-            if(confirm("Hapus seluruh data transaksi?")) {
-                const snap = await getDocs(koleksiTransaksi); snap.forEach(async (d) => await deleteDoc(doc(db, "transaksi_tu", d.id)));
-            }
+            const snap = await getDocs(koleksiTransaksi); snap.forEach(async (d) => await deleteDoc(doc(db, "transaksi_tu", d.id)));
         };
     </script>
 
@@ -1307,7 +1284,7 @@
             if(document.getElementById('username').value.trim() === "eka" && document.getElementById('password').value.trim() === "tatausaha123"){
                 document.getElementById('halamanLogin').classList.add('hidden');
                 document.getElementById('halamanDashboard').classList.remove('hidden');
-            } else { alert("Akses Ditolak!"); }
+            }
         }
 
         function prosesLogout(){
@@ -1379,10 +1356,7 @@
 
         function cetakTabelVariabel(jenisTarget) {
             let dataFiltered = window.dataMasterCloud.filter(d => d.jenisKas === jenisTarget);
-            if (dataFiltered.length === 0) {
-                alert(`Tidak ada data ${jenisTarget} yang dapat dicetak.`);
-                return;
-            }
+            if (dataFiltered.length === 0) return;
 
             let totalAcc = 0;
             let htmlPrint = `
@@ -1592,10 +1566,7 @@
         function tutupModalSiswa() { document.getElementById('modalSiswa').classList.add('hidden'); }
 
         window.unduhDataSiswaCloud = function() {
-            if (!window.siswaCloudCache || window.siswaCloudCache.length === 0) {
-                alert("Tidak ada data siswa di database cloud yang bisa diunduh.");
-                return;
-            }
+            if (!window.siswaCloudCache || window.siswaCloudCache.length === 0) return;
 
             let dataExcelSiswa = window.siswaCloudCache.map((s, index) => ({
                 "No": index + 1,
