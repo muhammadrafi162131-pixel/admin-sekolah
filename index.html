@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Keuangan Tata Usaha - Ultimate Edition</title>
+    <title>Sistem Keuangan Tata Usaha Sekolah v8.0 Pro</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
@@ -11,13 +11,11 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
-        /* Modifikasi Cetak Default Browser untuk Laporan Kolektif */
         @media print {
             body:not(.sedang-cetak-struk) #halamanDashboard { display: none !important; }
             body:not(.sedang-cetak-struk) #areaCetak {
@@ -30,7 +28,6 @@
             .no-print { display: none !important; }
         }
         
-        /* CSS Printer Struk Tunggal Kasir */
         @media print {
             body.sedang-cetak-struk * { visibility: hidden !important; }
             body.sedang-cetak-struk #strukTunggalBoxUtama, 
@@ -57,8 +54,8 @@
                 <div class="w-16 h-16 bg-gradient-to-tr from-indigo-600 to-indigo-400 rounded-2xl mx-auto flex items-center justify-center shadow-lg shadow-indigo-500/30 mb-4 ring-4 ring-indigo-500/10">
                     <span class="text-white text-2xl font-black">TU</span>
                 </div>
-                <h1 class="text-2xl font-extrabold text-white tracking-tight">Kasir TU Cloud</h1>
-                <p class="text-xs text-slate-400 mt-1.5 font-medium">Sistem Keuangan Internal Sekolah v7.8 Pro</p>
+                <h1 class="text-2xl font-extrabold text-white tracking-tight">Kasir TU Cloud Pro</h1>
+                <p class="text-xs text-slate-400 mt-1.5 font-medium">Sistem Keuangan Internal Sekolah v8.0</p>
             </div>
             <form onsubmit="prosesLogin(event)" class="space-y-5">
                 <div>
@@ -95,11 +92,11 @@
                     </div>
                     <div>
                         <h2 class="font-extrabold text-white text-sm tracking-tight">Kasir TU Cloud</h2>
-                        <p class="text-[10px] text-slate-500 font-semibold tracking-wider uppercase">Dashboard v7.8</p>
+                        <p class="text-[10px] text-slate-500 font-semibold tracking-wider uppercase">Dashboard v8.0 Pro</p>
                     </div>
                 </div>
 
-                <nav class="space-y-2.5">
+                <nav class="space-y-2">
                     <!-- Dashboard Utama -->
                     <button onclick="pindahMenu('menuTransaksi')" id="btnNavTransaksi" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs tracking-wide uppercase transition duration-200 bg-indigo-600 text-white shadow-lg shadow-indigo-600/25 cursor-pointer text-left">
                         📊 Dashboard Utama
@@ -130,6 +127,11 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- FITUR BARU 1 & 2: REKAP SPP & TUNGGAKAN SISWA -->
+                    <button onclick="pindahMenu('menuRekapSiswa')" id="btnNavRekapSiswa" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs tracking-wide uppercase transition duration-200 text-amber-400 hover:bg-slate-800/60 cursor-pointer text-left">
+                        🎓 Cek SPP & Tunggakan Siswa
+                    </button>
 
                     <button onclick="pindahMenu('menuMaster')" id="btnNavMaster" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs tracking-wide uppercase transition duration-200 text-slate-400 hover:bg-slate-800/60 hover:text-slate-200 cursor-pointer text-left">
                         ⚙️ Edit Master & Variabel
@@ -164,19 +166,53 @@
             <div id="menuTransaksi" class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                     <div class="bg-slate-900/60 border border-slate-800/80 p-5 rounded-2xl relative overflow-hidden group">
-                        <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-emerald-500/5 rounded-full blur-xl group-hover:bg-emerald-500/10 transition"></div>
                         <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Pemasukan Hari Ini</div>
                         <div id="widgetMiniMasuk" class="text-2xl font-black text-emerald-400 font-mono mt-2">Rp 0</div>
                     </div>
                     <div class="bg-slate-900/60 border border-slate-800/80 p-5 rounded-2xl relative overflow-hidden group">
-                        <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-rose-500/5 rounded-full blur-xl group-hover:bg-rose-500/10 transition"></div>
                         <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Pengeluaran Hari Ini</div>
                         <div id="widgetMiniKeluar" class="text-2xl font-black text-rose-400 font-mono mt-2">Rp 0</div>
                     </div>
                     <div class="bg-slate-900/60 border border-slate-800/80 p-5 rounded-2xl relative overflow-hidden group">
-                        <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-indigo-500/5 rounded-full blur-xl group-hover:bg-indigo-500/10 transition"></div>
                         <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Estimasi Total Kas</div>
                         <div id="widgetMiniSaldo" class="text-2xl font-black text-indigo-400 font-mono mt-2">Rp 0</div>
+                    </div>
+                </div>
+
+                <!-- FITUR BARU 3 & 5: BATAS ANGGARAN & DAKSBORD VISUALISASI -->
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
+                    <!-- Fitur Anggaran Limit Pengeluaran -->
+                    <div class="bg-slate-900/60 border border-slate-800/80 p-5 rounded-2xl space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-extrabold text-white tracking-tight uppercase">🛡️ Control Limit Pengeluaran</span>
+                            <span id="badgeStatusBudget" class="px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Aman</span>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-[11px] font-medium text-slate-400">
+                                <span>Batas Budget Keluar:</span>
+                                <input type="text" id="inputLimitBudget" oninput="formatMataUangInput(this); hitungBudgetLimit();" class="w-28 text-right bg-slate-950 border border-slate-800 rounded px-1.5 py-0.5 text-xs text-amber-400 font-mono font-bold" value="5,000,000">
+                            </div>
+                            <div class="w-full bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-800/80 mt-2">
+                                <div id="barBudgetProgress" class="bg-emerald-500 h-2 transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                            <div id="textBudgetMessage" class="text-[10px] text-slate-500 font-medium italic pt-1">Pengeluaran bulan ini masih dalam batas aman.</div>
+                        </div>
+                    </div>
+
+                    <!-- Visualisasi Rasio Kas -->
+                    <div class="xl:col-span-2 bg-slate-900/60 border border-slate-800/80 p-5 rounded-2xl space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-extrabold text-white tracking-tight uppercase">📈 Rasio Arus Kas (Pemasukan vs Pengeluaran)</span>
+                            <span id="textRasioPersen" class="text-xs font-bold font-mono text-indigo-400">100% Saldo Positif</span>
+                        </div>
+                        <div class="w-full bg-slate-950 rounded-full h-4 overflow-hidden border border-slate-800/80 flex">
+                            <div id="barRasioMasuk" class="bg-emerald-500 h-4 transition-all duration-500" style="width: 50%" title="Pemasukan"></div>
+                            <div id="barRasioKeluar" class="bg-rose-500 h-4 transition-all duration-500" style="width: 50%" title="Pengeluaran"></div>
+                        </div>
+                        <div class="flex justify-between text-[10px] font-bold text-slate-400 font-mono pt-1">
+                            <span class="text-emerald-400">🟢 Masuk: <span id="labelTotalRasioMasuk">Rp 0</span></span>
+                            <span class="text-rose-400">🔴 Keluar: <span id="labelTotalRasioKeluar">Rp 0</span></span>
+                        </div>
                     </div>
                 </div>
 
@@ -210,7 +246,6 @@
             <!-- Menu Variable 1: FORM & TABEL PEMASUKAN -->
             <div id="menuFormPemasukan" class="hidden space-y-6 max-w-5xl mx-auto">
                 <div class="bg-slate-900/60 border border-emerald-500/30 p-6 rounded-2xl space-y-6 relative overflow-hidden">
-                    <div class="absolute -right-20 -top-20 w-60 h-60 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
                     <div class="border-b border-slate-800/80 pb-4 flex justify-between items-center">
                         <div>
                             <h3 class="text-lg font-extrabold text-white tracking-tight">📥 Form Catat Pemasukan</h3>
@@ -289,7 +324,6 @@
             <!-- Menu Variable 2: FORM & TABEL PENGELUARAN -->
             <div id="menuFormPengeluaran" class="hidden space-y-6 max-w-5xl mx-auto">
                 <div class="bg-slate-900/60 border border-rose-500/30 p-6 rounded-2xl space-y-6 relative overflow-hidden">
-                    <div class="absolute -right-20 -top-20 w-60 h-60 bg-rose-500/5 rounded-full blur-3xl pointer-events-none"></div>
                     <div class="border-b border-slate-800/80 pb-4 flex justify-between items-center">
                         <div>
                             <h3 class="text-lg font-extrabold text-white tracking-tight">📤 Form Catat Pengeluaran</h3>
@@ -359,6 +393,70 @@
                             </thead>
                             <tbody id="tabelBodyPengeluaran" class="divide-y divide-slate-800/50">
                                 <tr><td colspan="7" class="p-5 text-center italic text-slate-500">Belum ada data pengeluaran.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HALAMAN BARU: FITUR REKAP SPP & PERHITUNGAN TUNGGAKAN SISWA -->
+            <div id="menuRekapSiswa" class="hidden space-y-6 max-w-5xl mx-auto">
+                <div class="bg-slate-900/60 border border-amber-500/30 p-6 rounded-2xl space-y-5">
+                    <div class="border-b border-slate-800/80 pb-4 flex justify-between items-center">
+                        <div>
+                            <h3 class="text-lg font-extrabold text-white tracking-tight">🎓 Cek Pembayaran SPP & Tunggakan Siswa</h3>
+                            <p class="text-xs text-slate-400 mt-0.5">Hitung otomatis total SPP yang telah dibayar dan sisa sisa tagihan per siswa</p>
+                        </div>
+                        <span class="px-3 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold text-[10px] rounded-lg uppercase tracking-wider">Modul SPP Sekolah</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">Pilih Nama Siswa</label>
+                            <input type="text" id="cariNamaSiswaSPP" oninput="prosesKalkulasiSPPSiswa()" list="listAutoSiswa" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 font-medium text-sm text-slate-200 placeholder:text-slate-600" placeholder="Ketik nama siswa...">
+                            <datalist id="listAutoSiswa"></datalist>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">Target Nominal Wajib Bayar (Rp)</label>
+                            <input type="text" id="targetWajibBayar" oninput="formatMataUangInput(this); prosesKalkulasiSPPSiswa();" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold font-mono text-amber-400 text-sm" value="3,000,000">
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="cetakRekapSPPSiswa()" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 rounded-xl transition text-xs shadow-lg shadow-amber-600/20 cursor-pointer">
+                                🖨️ Cetak Lembar Kartu SPP
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Statistik SPP Siswa -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                        <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-xl">
+                            <div class="text-[10px] font-bold text-slate-400 uppercase">Total Sudah Dibayar</div>
+                            <div id="statSudahBayar" class="text-xl font-black text-emerald-400 font-mono mt-1">Rp 0</div>
+                        </div>
+                        <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-xl">
+                            <div class="text-[10px] font-bold text-slate-400 uppercase">Sisa Tunggakan Tagihan</div>
+                            <div id="statSisaTunggakan" class="text-xl font-black text-rose-400 font-mono mt-1">Rp 0</div>
+                        </div>
+                        <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-xl">
+                            <div class="text-[10px] font-bold text-slate-400 uppercase">Status Pembayaran</div>
+                            <div id="statStatusLunas" class="text-sm font-bold text-amber-400 uppercase mt-2">Belum Memilih Siswa</div>
+                        </div>
+                    </div>
+
+                    <!-- Tabel Riwayat Transaksi Siswa Ini -->
+                    <div class="border border-slate-800/80 rounded-2xl overflow-hidden bg-slate-950/40 mt-4">
+                        <div class="p-3.5 bg-slate-950 border-b border-slate-800/80 font-bold text-xs text-slate-300 uppercase tracking-wider">Riwayat Pembayaran Masuk Untuk Siswa Ini</div>
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-slate-950 text-slate-500 font-bold uppercase text-[10px] border-b border-slate-800">
+                                <tr>
+                                    <th class="p-3">Tanggal</th>
+                                    <th class="p-3">Kategori</th>
+                                    <th class="p-3">Uraian</th>
+                                    <th class="p-3 text-right">Nominal Bayar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelRiwayatSPPSiswa" class="divide-y divide-slate-800/50 text-slate-300">
+                                <tr><td colspan="4" class="p-4 text-center italic text-slate-500">Pilih nama siswa di atas.</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -624,7 +722,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, getDocs, deleteDoc, doc, writeBatch, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Konfigurasi Firebase Project Anda
         const firebaseConfig = {
             apiKey: "AIzaSyA123456789-ContohKeySaja",
             authDomain: "kasir-tu.firebaseapp.com",
@@ -645,14 +742,14 @@
         window.siswaCloudCache = [];
         window.kategoriCloudCache = [];
 
-        // Set Tanggal Default Form
         if(document.getElementById('tglPemasukan')) document.getElementById('tglPemasukan').valueAsDate = new Date();
         if(document.getElementById('tglPengeluaran')) document.getElementById('tglPengeluaran').valueAsDate = new Date();
 
-        // Realtime Listener Master Siswa
         onSnapshot(koleksiMasterSiswa, (snapshot) => {
             window.siswaCloudCache = [];
             let html = "";
+            let datalistOptions = "";
+
             snapshot.forEach((docSnap) => { 
                 let s = docSnap.data(); s.id = docSnap.id;
                 window.siswaCloudCache.push(s);
@@ -666,11 +763,13 @@
                         </td>
                     </tr>
                 `;
+                datalistOptions += `<option value="${s["Nama Siswa"]}">`;
             });
+
             document.getElementById('crudBodySiswa').innerHTML = html || `<tr><td colspan="3" class="p-4 text-center text-slate-500 italic">Tidak ada master siswa.</td></tr>`;
+            if (document.getElementById('listAutoSiswa')) document.getElementById('listAutoSiswa').innerHTML = datalistOptions;
         });
 
-        // Realtime Listener Master Variabel
         onSnapshot(koleksiKategoriAutosave, (snapshot) => {
             window.kategoriCloudCache = [];
             let html = "";
@@ -691,7 +790,6 @@
             document.getElementById('crudBodyVariabel').innerHTML = html || `<tr><td colspan="3" class="p-4 text-center text-slate-500 italic">Tidak ada variabel tersimpan.</td></tr>`;
         });
 
-        // Simpan Khusus Pemasukan / Pengeluaran
         window.simpanKhususKas = async function(event, jenisKas) {
             event.preventDefault();
             
@@ -714,7 +812,6 @@
                 waktuInput: new Date().getTime() 
             });
 
-            // Reset Form Input
             if (jenisKas === 'Pemasukan') {
                 document.getElementById('katPemasukan').value = '';
                 document.getElementById('namaPemasukan').value = '';
@@ -727,9 +824,8 @@
                 document.getElementById('ketPengeluaran').value = '';
             }
 
-            alert(`Berhasil menyimpan data ${jenisKas}! Data otomatis ditambahkan ke tabel di bawah.`);
+            alert(`Berhasil menyimpan ${jenisKas}!`);
             
-            // Otomatis Buka Dropdown Subvariable di Sidebar
             if (jenisKas === 'Pemasukan') {
                 document.getElementById('dropdownPemasukan').classList.remove('hidden');
                 document.getElementById('iconPemasukan').innerText = "▲";
@@ -739,7 +835,6 @@
             }
         };
 
-        // Realtime Listener Transaksi Utama
         const q = query(koleksiTransaksi, orderBy("tanggal", "asc"), orderBy("waktuInput", "asc"));
         onSnapshot(q, (snapshot) => {
             window.dataMasterCloud = [];
@@ -759,9 +854,10 @@
             window.updateLiveActivityDashboard();
             window.renderSubvariableSidebar();
             window.renderTabelPerVariabel();
+            window.hitungBudgetLimit();
+            window.prosesKalkulasiSPPSiswa();
         });
 
-        // Render Tabel Khusus Pemasukan dan Pengeluaran
         window.renderTabelPerVariabel = function() {
             let bodyPemasukan = document.getElementById('tabelBodyPemasukan');
             let bodyPengeluaran = document.getElementById('tabelBodyPengeluaran');
@@ -812,70 +908,92 @@
             if (bodyPengeluaran) bodyPengeluaran.innerHTML = htmlKeluar || `<tr><td colspan="7" class="p-5 text-center italic text-slate-500">Belum ada data pengeluaran.</td></tr>`;
         };
 
-        // Cetak Khusus Laporan Tabel Pemasukan / Pengeluaran
-        window.cetakTabelVariabel = function(jenisTarget) {
-            let dataFiltered = window.dataMasterCloud.filter(d => d.jenisKas === jenisTarget);
-            if (dataFiltered.length === 0) {
-                alert(`Tidak ada data ${jenisTarget} yang bisa dicetak.`);
+        // FITUR LOGIKA BARU: HITUNG TUNGGAKAN SISWA
+        window.prosesKalkulasiSPPSiswa = function() {
+            let nama = document.getElementById('cariNamaSiswaSPP').value.trim().toLowerCase();
+            let rawTarget = document.getElementById('targetWajibBayar').value.replace(/,/g, '');
+            let target = parseFloat(rawTarget) || 0;
+
+            if (!nama) {
+                document.getElementById('statSudahBayar').innerText = "Rp 0";
+                document.getElementById('statSisaTunggakan').innerText = "Rp 0";
+                document.getElementById('statStatusLunas').innerText = "Belum Memilih Siswa";
+                document.getElementById('tabelRiwayatSPPSiswa').innerHTML = `<tr><td colspan="4" class="p-4 text-center italic text-slate-500">Pilih nama siswa di atas.</td></tr>`;
                 return;
             }
 
-            let totalAcc = 0;
-            let htmlPrint = `
-                <div style="text-align:center; margin-bottom:20px;">
-                    <h2 style="font-size:16px; margin:0; text-transform:uppercase;">LAPORAN KHUSUS ${jenisTarget.toUpperCase()}</h2>
-                    <p style="font-size:11px; color:#555; margin:4px 0 0 0;">SMK AL KAAFFAH Kepanjen</p>
-                </div>
-                <table style="width:100%; border-collapse:collapse; font-size:11px;">
-                    <thead>
-                        <tr style="background:#f1f5f9;">
-                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:center; width:30px;">No</th>
-                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Tanggal</th>
-                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Kategori</th>
-                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Nama / Pihak</th>
-                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Keterangan</th>
-                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:right;">Nominal (Rp)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
+            let dataSiswa = window.dataMasterCloud.filter(d => d.jenisKas === 'Pemasukan' && d.nama.toLowerCase().includes(nama));
+            let totalBayar = 0;
+            let htmlTr = "";
 
-            dataFiltered.reverse().forEach((d, i) => {
-                totalAcc += d.jumlah;
-                htmlPrint += `
+            dataSiswa.forEach(d => {
+                totalBayar += d.jumlah;
+                htmlTr += `
                     <tr>
-                        <td style="padding:6px; border:1px solid #cbd5e1; text-align:center;">${i+1}</td>
-                        <td style="padding:6px; border:1px solid #cbd5e1;">${d.tanggal}</td>
-                        <td style="padding:6px; border:1px solid #cbd5e1;">${d.kategori}</td>
-                        <td style="padding:6px; border:1px solid #cbd5e1;"><b>${d.nama.toUpperCase()}</b></td>
-                        <td style="padding:6px; border:1px solid #cbd5e1;">${d.keterangan || '-'}</td>
-                        <td style="padding:6px; border:1px solid #cbd5e1; text-align:right; font-weight:bold;">Rp ${d.jumlah.toLocaleString('id-ID')}</td>
+                        <td class="p-3 font-medium">${d.tanggal}</td>
+                        <td class="p-3"><span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold">${d.kategori}</span></td>
+                        <td class="p-3 text-slate-400">${d.keterangan || '-'}</td>
+                        <td class="p-3 text-right font-bold text-emerald-400 font-mono">Rp ${d.jumlah.toLocaleString('id-ID')}</td>
                     </tr>
                 `;
             });
 
-            htmlPrint += `
-                    <tr style="background:#f8fafc; font-weight:bold;">
-                        <td colspan="5" style="padding:8px; border:1px solid #cbd5e1; text-align:right;">TOTAL KUMULATIF ${jenisTarget.toUpperCase()}:</td>
-                        <td style="padding:8px; border:1px solid #cbd5e1; text-align:right; color:${jenisTarget==='Pemasukan'?'#16a34a':'#dc2626'}">Rp ${totalAcc.toLocaleString('id-ID')}</td>
-                    </tr>
-                </tbody>
-            </table>
-            `;
+            let sisaTunggakan = target - totalBayar;
+            document.getElementById('statSudahBayar').innerText = `Rp ${totalBayar.toLocaleString('id-ID')}`;
+            document.getElementById('statSisaTunggakan').innerText = `Rp ${sisaTunggakan <= 0 ? 0 : sisaTunggakan.toLocaleString('id-ID')}`;
 
-            const areaCetak = document.getElementById('areaCetak');
-            areaCetak.innerHTML = htmlPrint;
-            areaCetak.classList.remove('hidden');
-            
-            window.print();
-            
-            setTimeout(() => {
-                areaCetak.classList.add('hidden');
-                areaCetak.innerHTML = "";
-            }, 600);
+            let statusBox = document.getElementById('statStatusLunas');
+            if (totalBayar >= target && target > 0) {
+                statusBox.innerText = "✅ LUNAS";
+                statusBox.className = "text-sm font-black text-emerald-400 uppercase mt-2";
+            } else {
+                statusBox.innerText = "⚠️ MASIH ADA TUNGGAKAN";
+                statusBox.className = "text-sm font-black text-rose-400 uppercase mt-2";
+            }
+
+            document.getElementById('tabelRiwayatSPPSiswa').innerHTML = htmlTr || `<tr><td colspan="4" class="p-4 text-center italic text-slate-500">Belum ada riwayat pembayaran untuk siswa ini.</td></tr>`;
         };
 
-        // Update Dropdown Subvariabel Pemasukan & Pengeluaran di Sidebar
+        // FITUR LOGIKA BARU: ANGARAAN LIMIT PENGELUARAN
+        window.hitungBudgetLimit = function() {
+            let rawLimit = document.getElementById('inputLimitBudget').value.replace(/,/g, '');
+            let limit = parseFloat(rawLimit) || 0;
+
+            let totalPengeluaran = 0;
+            window.dataMasterCloud.forEach(d => {
+                if (d.jenisKas === 'Pengeluaran') totalPengeluaran += d.jumlah;
+            });
+
+            let persen = limit > 0 ? (totalPengeluaran / limit) * 100 : 0;
+            if (persen > 100) persen = 100;
+
+            let bar = document.getElementById('barBudgetProgress');
+            let badge = document.getElementById('badgeStatusBudget');
+            let msg = document.getElementById('textBudgetMessage');
+
+            bar.style.width = `${persen}%`;
+
+            if (persen >= 100) {
+                bar.className = "bg-rose-500 h-2 transition-all duration-500";
+                badge.className = "px-2 py-0.5 rounded text-[9px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20";
+                badge.innerText = "OVER BUDGET!";
+                msg.innerText = "Peringatan: Total pengeluaran telah melebihi batas anggaran yang ditentukan!";
+                msg.className = "text-[10px] text-rose-400 font-bold italic pt-1";
+            } else if (persen >= 75) {
+                bar.className = "bg-amber-500 h-2 transition-all duration-500";
+                badge.className = "px-2 py-0.5 rounded text-[9px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20";
+                badge.innerText = "WASPADA";
+                msg.innerText = "Pengeluaran mendekati ambang batas anggaran maksimum!";
+                msg.className = "text-[10px] text-amber-400 font-semibold italic pt-1";
+            } else {
+                bar.className = "bg-emerald-500 h-2 transition-all duration-500";
+                badge.className = "px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+                badge.innerText = "Aman";
+                msg.innerText = "Pengeluaran kas sekolah masih dalam batas aman anggaran.";
+                msg.className = "text-[10px] text-slate-500 font-medium italic pt-1";
+            }
+        };
+
         window.renderSubvariableSidebar = function() {
             let listMasuk = document.getElementById('subVarPemasukanList');
             let listKeluar = document.getElementById('subVarPengeluaranList');
@@ -909,7 +1027,6 @@
             if(listKeluar) listKeluar.innerHTML = htmlKeluar || `<p class="italic text-slate-600 text-center py-2 text-[10px]">Belum ada pengeluaran</p>`;
         };
 
-        // Buka Tampilan Detail Subvariabel yang Diklik
         window.lihatDetailSubvariable = function(idTransaksi) {
             const item = window.dataMasterCloud.find(d => d.id === idTransaksi);
             if (!item) return;
@@ -943,13 +1060,34 @@
         window.updateLiveActivityDashboard = function() {
             const hariIni = new Date().toISOString().split('T')[0];
             let masuk = 0, keluar = 0, totalKas = 0;
+            let sumMasukTotal = 0, sumKeluarTotal = 0;
+
             const dataTerbaru = [...window.dataMasterCloud].reverse();
             let htmlLive = ""; let counter = 0;
 
             window.dataMasterCloud.forEach(d => {
-                if(d.jenisKas === 'Pemasukan') totalKas += d.jumlah; else totalKas -= d.jumlah;
-                if(d.tanggal === hariIni) { if(d.jenisKas === 'Pemasukan') masuk += d.jumlah; else keluar += d.jumlah; }
+                if(d.jenisKas === 'Pemasukan') {
+                    totalKas += d.jumlah;
+                    sumMasukTotal += d.jumlah;
+                } else {
+                    totalKas -= d.jumlah;
+                    sumKeluarTotal += d.jumlah;
+                }
+
+                if(d.tanggal === hariIni) { 
+                    if(d.jenisKas === 'Pemasukan') masuk += d.jumlah; else keluar += d.jumlah; 
+                }
             });
+
+            // Update Grafik Rasio Persentase
+            let grandTotal = sumMasukTotal + sumKeluarTotal;
+            let persenMasuk = grandTotal > 0 ? (sumMasukTotal / grandTotal) * 100 : 50;
+            let persenKeluar = grandTotal > 0 ? (sumKeluarTotal / grandTotal) * 100 : 50;
+
+            if (document.getElementById('barRasioMasuk')) document.getElementById('barRasioMasuk').style.width = `${persenMasuk}%`;
+            if (document.getElementById('barRasioKeluar')) document.getElementById('barRasioKeluar').style.width = `${persenKeluar}%`;
+            if (document.getElementById('labelTotalRasioMasuk')) document.getElementById('labelTotalRasioMasuk').innerText = `Rp ${sumMasukTotal.toLocaleString('id-ID')}`;
+            if (document.getElementById('labelTotalRasioKeluar')) document.getElementById('labelTotalRasioKeluar').innerText = `Rp ${sumKeluarTotal.toLocaleString('id-ID')}`;
 
             dataTerbaru.forEach(d => {
                 if(counter >= 5) return;
@@ -978,7 +1116,6 @@
             if(document.getElementById('widgetMiniSaldo')) document.getElementById('widgetMiniSaldo').innerText = `Rp ${totalKas.toLocaleString('id-ID')}`;
         };
 
-        // CRUD Master Siswa & Variabel
         window.editSiswaCloud = async function(id, namaLama, kelasLama) {
             const n = prompt("Ubah Nama Siswa:", namaLama); const k = prompt("Ubah Kelas:", kelasLama);
             if(n && k) await updateDoc(doc(db, "master_siswa_cloud", id), { "Nama Siswa": n.trim().toUpperCase(), "Kelas": k.trim().toUpperCase() });
@@ -1067,13 +1204,13 @@
         }
 
         function pindahMenu(idMenuTarget) {
-            ['menuTransaksi', 'menuFormPemasukan', 'menuFormPengeluaran', 'menuDetailSubVariable', 'menuMaster', 'menuLaporan'].forEach(id => {
+            ['menuTransaksi', 'menuFormPemasukan', 'menuFormPengeluaran', 'menuRekapSiswa', 'menuDetailSubVariable', 'menuMaster', 'menuLaporan'].forEach(id => {
                 if(document.getElementById(id)) document.getElementById(id).classList.add('hidden');
             });
             
             if(document.getElementById(idMenuTarget)) document.getElementById(idMenuTarget).classList.remove('hidden');
             
-            ['btnNavTransaksi', 'btnNavMaster', 'btnNavLaporan'].forEach(id => {
+            ['btnNavTransaksi', 'btnNavRekapSiswa', 'btnNavMaster', 'btnNavLaporan'].forEach(id => {
                 if(document.getElementById(id)) {
                     document.getElementById(id).classList.remove('bg-indigo-600', 'text-white', 'shadow-lg');
                     document.getElementById(id).classList.add('text-slate-400');
@@ -1082,6 +1219,8 @@
 
             if (idMenuTarget === 'menuTransaksi') {
                 document.getElementById('btnNavTransaksi').classList.add('bg-indigo-600', 'text-white', 'shadow-lg');
+            } else if (idMenuTarget === 'menuRekapSiswa') {
+                document.getElementById('btnNavRekapSiswa').classList.add('bg-indigo-600', 'text-white', 'shadow-lg');
             } else if (idMenuTarget === 'menuMaster') {
                 document.getElementById('btnNavMaster').classList.add('bg-indigo-600', 'text-white', 'shadow-lg');
             } else if (idMenuTarget === 'menuLaporan') {
@@ -1165,6 +1304,7 @@
             XLSX.writeFile(wb, `Laporan_Kas_TU_${new Date().toISOString().split('T')[0]}.xlsx`);
         }
 
+        // FITUR BARU 4: CETAK RESMI DENGAN TANDA TANGAN
         function cetakLaporanKolektif() {
             if(!window.dataFilteredLokal || window.dataFilteredLokal.length === 0) return;
             
@@ -1173,39 +1313,34 @@
 
             let htmlPrint = `
                 <div style="text-align:center; margin-bottom:20px;">
-                    <h2 style="font-size:16px; margin:0; text-transform:uppercase;">LAPORAN BUKU KAS TATA USAHA</h2>
-                    <p style="font-size:11px; color:#555; margin:4px 0 0 0;">Kepanjen, Malang, Jawa Timur</p>
-                    <p style="font-size:10px; color:#666; margin:2px 0 0 0; font-style:italic;">Dicetak otomatis berdasarkan filter sistem</p>
+                    <h2 style="font-size:16px; margin:0; text-transform:uppercase;">LAPORAN REKAPITULASI BUKU KAS SEKOLAH</h2>
+                    <p style="font-size:11px; color:#555; margin:4px 0 0 0;">SMK AL KAAFFAH - Kepanjen, Malang, Jawa Timur</p>
                 </div>
                 <table style="width:100%; border-collapse:collapse; font-size:11px;">
                     <thead>
                         <tr style="background:#f1f5f9;">
                             <th style="padding:6px; border:1px solid #cbd5e1; text-align:center; width:30px;">No</th>
-                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left; width:80px;">Tanggal</th>
-                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left; width:100px;">Kategori</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Tanggal</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Kategori</th>
                             <th style="padding:6px; border:1px solid #cbd5e1; text-align:left;">Nama & Uraian</th>
-                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:right; width:110px;">Pemasukan (Debit)</th>
-                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:right; width:110px;">Pengeluaran (Kredit)</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:right;">Debit (Pemasukan)</th>
+                            <th style="padding:6px; border:1px solid #cbd5e1; text-align:right;">Kredit (Pengeluaran)</th>
                         </tr>
                     </thead>
                     <tbody>
             `;
 
             window.dataFilteredLokal.forEach((d, i) => {
-                if(d.jenisKas === 'Pemasukan') {
-                    totalMasuk += d.jumlah;
-                } else {
-                    totalKeluar += d.jumlah;
-                }
+                if(d.jenisKas === 'Pemasukan') totalMasuk += d.jumlah; else totalKeluar += d.jumlah;
 
                 htmlPrint += `
                     <tr>
                         <td style="padding:6px; border:1px solid #cbd5e1; text-align:center;">${i+1}</td>
-                        <td style="padding:6px; border:1px solid #cbd5e1; white-space:nowrap;">${d.tanggal}</td>
-                        <td style="padding:6px; border:1px solid #cbd5e1;"><span style="background:#f8fafc; padding:2px 4px; border-radius:3px; border:1px solid #e2e8f0;">${d.kategori}</span></td>
+                        <td style="padding:6px; border:1px solid #cbd5e1;">${d.tanggal}</td>
+                        <td style="padding:6px; border:1px solid #cbd5e1;">${d.kategori}</td>
                         <td style="padding:6px; border:1px solid #cbd5e1;"><b>${d.nama.toUpperCase()}</b><br><span style="color:#64748b; font-size:10px;">${d.keterangan || '-'}</span></td>
-                        <td style="padding:6px; border:1px solid #cbd5e1; text-align:right; font-weight:600;">${d.jenisKas==='Pemasukan'?'Rp '+d.jumlah.toLocaleString('id-ID'):'-'}</td>
-                        <td style="padding:6px; border:1px solid #cbd5e1; text-align:right; font-weight:600;">${d.jenisKas==='Pengeluaran'?'Rp '+d.jumlah.toLocaleString('id-ID'):'-'}</td>
+                        <td style="padding:6px; border:1px solid #cbd5e1; text-align:right;">${d.jenisKas==='Pemasukan'?'Rp '+d.jumlah.toLocaleString('id-ID'):'-'}</td>
+                        <td style="padding:6px; border:1px solid #cbd5e1; text-align:right;">${d.jenisKas==='Pengeluaran'?'Rp '+d.jumlah.toLocaleString('id-ID'):'-'}</td>
                     </tr>
                 `;
             });
@@ -1214,18 +1349,32 @@
 
             htmlPrint += `
                     <tr style="background:#f8fafc; font-weight:bold;">
-                        <td colspan="4" style="padding:8px; border:1px solid #cbd5e1; text-align:right; text-transform:uppercase;">Total Kumulatif:</td>
+                        <td colspan="4" style="padding:8px; border:1px solid #cbd5e1; text-align:right;">TOTAL KUMULATIF:</td>
                         <td style="padding:8px; border:1px solid #cbd5e1; text-align:right; color:#16a34a;">Rp ${totalMasuk.toLocaleString('id-ID')}</td>
                         <td style="padding:8px; border:1px solid #cbd5e1; text-align:right; color:#dc2626;">Rp ${totalKeluar.toLocaleString('id-ID')}</td>
                     </tr>
-                    <tr style="background:#f1f5f9; font-weight:bold; font-size:12px;">
-                        <td colspan="4" style="padding:8px; border:1px solid #cbd5e1; text-align:right;">Sisa Saldo Buku Kas (Pemasukan - Pengeluaran):</td>
-                        <td colspan="2" style="padding:8px; border:1px solid #cbd5e1; text-align:right; color:#2563eb;">
-                            Rp ${selisihKas.toLocaleString('id-ID')}
-                        </td>
+                    <tr style="background:#f1f5f9; font-weight:bold;">
+                        <td colspan="4" style="padding:8px; border:1px solid #cbd5e1; text-align:right;">SISA SALDO KAS AKHIR:</td>
+                        <td colspan="2" style="padding:8px; border:1px solid #cbd5e1; text-align:right; color:#2563eb;">Rp ${selisihKas.toLocaleString('id-ID')}</td>
                     </tr>
                 </tbody>
             </table>
+
+            <!-- Kolom Tanda Tangan Resmi Sekolah -->
+            <div style="margin-top:40px; display:flex; justify-between:space-between; font-size:11px; font-weight:bold; text-align:center;">
+                <div style="width:40%;">
+                    <p>Mengetahui,</p>
+                    <p>Kepala Sekolah</p>
+                    <br><br><br>
+                    <p>( _______________________ )</p>
+                </div>
+                <div style="width:40%; float:right;">
+                    <p>Kepanjen, ${new Date().toLocaleDateString('id-ID')}</p>
+                    <p>Bendahara / Admin TU</p>
+                    <br><br><br>
+                    <p>( _______________________ )</p>
+                </div>
+            </div>
             `;
             
             const areaCetak = document.getElementById('areaCetak');
